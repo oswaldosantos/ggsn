@@ -22,10 +22,10 @@
       <h1>
 <a id="ggsn" class="anchor" href="#ggsn" aria-hidden="true"><span class="octicon octicon-link"></span></a>ggsn</h1>
 
-<p>The ggsn package improves the GIS capabilities of R, making possible to add 18 different north symbols and scale bars in kilometers, to maps in geographic or metric coordinates, created with "ggplot" or "ggmap".  </p>
+<p>The "ggsn" package improves the GIS capabilities of R, making possible to add 18 different north symbols and scale bars in kilometers, to maps in geographic or metric coordinates, created with "ggplot" or "ggmap".  </p>
 
-<p>To install the production version use: <code>r install.packages('ggsn')</code>.</p>
-<p>To install the development version use: <code>r install.packages('oswaldosantos/ggsn')</code> (make sure that devtools is loaded).</p>
+<p>To install the production version use: <code>install.packages('ggsn')</code>.</p>
+<p>To install the development version use: <code>install.packages('oswaldosantos/ggsn')</code> (make sure that devtools is loaded).</p>
 
 <h2>
 <a id="example" class="anchor" href="#example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example</h2>
@@ -57,7 +57,7 @@
 
 <p><img src="https://cloud.githubusercontent.com/assets/3876657/9424410/dbc23144-48c1-11e5-888d-041d28b920ae.jpg" alt="alt tag"></p>
 
-<p>Now, let's use the ggsn package to add a blank background, a north symbol and a scaale bar with segments of 5km.</p>
+<p>Now, let's use the "ggsn" package to add a blank background, a north symbol and a scaale bar with segments of 5 km.</p>
 
 <div class="highlight highlight-r"><pre><span class="pl-smi">ggm1</span> <span class="pl-k">+</span>
     blank() <span class="pl-k">+</span>
@@ -73,6 +73,8 @@
     north(<span class="pl-smi">map.df</span>) <span class="pl-k">+</span>
     scalebar(<span class="pl-smi">map.df</span>, <span class="pl-v">dist</span> <span class="pl-k">=</span> <span class="pl-c1">5</span>, <span class="pl-v">dd2km</span> <span class="pl-k">=</span> <span class="pl-c1">TRUE</span>, <span class="pl-v">model</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>WGS84<span class="pl-pds">'</span></span>)</pre></div>
 
+<p><img src="https://cloud.githubusercontent.com/assets/3876657/9424480/7afac044-48c4-11e5-9403-b8a440d348b4.jpg" alt="alt tag"></p>
+
 <div class="highlight highlight-r"><pre>ggplot(<span class="pl-v">data</span> <span class="pl-k">=</span> <span class="pl-smi">map2.df</span>, aes(<span class="pl-smi">long</span>, <span class="pl-smi">lat</span>, <span class="pl-v">group</span> <span class="pl-k">=</span> <span class="pl-smi">group</span>, <span class="pl-v">fill</span> <span class="pl-k">=</span> <span class="pl-smi">nots</span>)) <span class="pl-k">+</span>
     geom_polygon() <span class="pl-k">+</span>
     coord_equal() <span class="pl-k">+</span>
@@ -84,8 +86,6 @@
     ylab(<span class="pl-s"><span class="pl-pds">'</span>Meters<span class="pl-pds">'</span></span>)</pre></div>
 
 <p><img src="https://cloud.githubusercontent.com/assets/3876657/9424407/c22f248a-48c1-11e5-9b65-b63d4691b334.jpg" alt="alt tag"></p>
-
-<p><img src="https://cloud.githubusercontent.com/assets/3876657/9424480/7afac044-48c4-11e5-9403-b8a440d348b4.jpg" alt="alt tag"></p>
 
 <p>The packages "ggsn" and "ggmap" can be used together.</p>
 
