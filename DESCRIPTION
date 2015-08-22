@@ -1,0 +1,21 @@
+Package: ggsn
+Type: Package
+Title: North symbols and scale bars for ggplot and ggmap maps
+Depends:
+    R (>= 3.2.1)
+Imports:
+    ggplot2,
+    png,
+    grid,
+    maptools
+Suggests:
+    rgdal,
+    ggmap
+Description: Adds north symbols (18 options) and scale bars in kilometers to maps in geographic or metric coordinates created with ggplot or ggmap.
+License: GPL (>= 2)
+LazyLoad: yes
+URL: http://oswaldosantos.github.io/capm
+Authors@R: c(person(given='Oswaldo', family='Santos Baquero',
+    email='oswaldosant@gmail.com', role=c("aut", "cre")))
+Version: 0.1.0
+Date: 2015-08-21

@@ -1,0 +1,2 @@
+If the main ggplot is empty (ggplot()), annotation_custom gives an empty layer.
+http://stackoverflow.com/questions/14391183/ggplot2-annotation-custom-gives-an-empty-layer
