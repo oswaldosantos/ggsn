@@ -3,10 +3,10 @@
 #' \tabular{ll}{
 #' Package: \tab ggsn\cr
 #' Type: \tab Package\cr
-#' Version: \tab 0.1.0\cr
+#' Version: \tab 0.1.1\cr
 #' Date: \tab 2015-08-21\cr
 #' Depends: \tab R (>= 3.2.1)\cr
-#' Imports: \tab ggplot2, png, grid, maptools\cr
+#' Imports: \tab png, grid, maptools\cr
 #' Suggests: \tab rgdal, ggmap\cr
 #' License: \tab GPL (>= 2)\cr
 #' LazyLoad: \tab yes\cr

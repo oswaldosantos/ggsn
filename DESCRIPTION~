@@ -5,6 +5,7 @@ Depends:
     R (>= 3.2.1),
     ggplot2
 Imports:
+    ggplot2,
     png,
     grid,
     maptools
@@ -17,5 +18,5 @@ LazyLoad: yes
 URL: http://oswaldosantos.github.io/capm
 Authors@R: c(person(given='Oswaldo', family='Santos Baquero',
     email='oswaldosant@gmail.com', role=c("aut", "cre")))
-Version: 0.1.1
+Version: 0.1.0
 Date: 2015-08-21
