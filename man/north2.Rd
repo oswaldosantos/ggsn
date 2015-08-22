@@ -24,7 +24,7 @@ Alternative implementation to add a north symbol to maps created with ggplot or 
 North symbols are included in the plot with the \code{\link{annotation_custom}} function, which do not works when used together with an empty call to ggplot (see last example). When it is convenient to use an empty call to ggplot, use \code{\link{north2}} instead.
 }
 \examples{
-library(rgdal)
+library(rgdal); library(rgeos)
 dsn <- system.file('extdata', package = 'ggsn')
 map <- readOGR(dsn, 'sp')
 map@data$id <- 1:nrow(map@data)
