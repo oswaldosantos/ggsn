@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>ggsn by oswaldosantos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">ggsn</h1>
+      <h2 class="project-tagline">R package to add north symbols and scale bars to maps created with &quot;ggplot&quot; or &quot;ggmap&quot;</h2>
+      <a href="https://github.com/oswaldosantos/ggsn" class="btn">View on GitHub</a>
+      <a href="https://github.com/oswaldosantos/ggsn/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/oswaldosantos/ggsn/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="ggsn" class="anchor" href="#ggsn" aria-hidden="true"><span class="octicon octicon-link"></span></a>ggsn</h1>
+
+<p>The ggsn package improves the GIS capabilities of R, making possible to add 18 different north symbols and scale bars in kilometers to maps in geographic or metric coordinates created with "ggplot" or "ggmap".  </p>
+
+<p>To install the production version use: ̀ r install.packages('ggsn')̀
+To install the production version use: ̀ r install_github('oswaldosantos/ggsn')̀  (make surethat devtools is loaded).</p>
+
+<h2>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example</h2>
+
+<p>Read a shapefile and preprae it to plot</p>
+
+<div class="highlight highlight-r"><pre>library(<span class="pl-smi">ggsn</span>); library(<span class="pl-smi">ggmap</span>); library(<span class="pl-smi">rgdal</span>); library(<span class="pl-smi">rgeos</span>)
+<span class="pl-smi">shape.directory</span> <span class="pl-k">&lt;-</span> system.file(<span class="pl-s"><span class="pl-pds">'</span>extdata<span class="pl-pds">'</span></span>, <span class="pl-v">package</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>ggsn<span class="pl-pds">'</span></span>)
+
+<span class="pl-c"># Map in geographic coordinates</span>
+<span class="pl-smi">map</span> <span class="pl-k">&lt;-</span> readOGR(<span class="pl-smi">shape.directory</span>, <span class="pl-s"><span class="pl-pds">'</span>sp<span class="pl-pds">'</span></span>)
+<span class="pl-smi">map</span><span class="pl-k">@</span><span class="pl-smi">data</span><span class="pl-k">$</span><span class="pl-smi">id</span> <span class="pl-k">&lt;-</span> <span class="pl-c1">1</span><span class="pl-k">:</span>nrow(<span class="pl-smi">map</span><span class="pl-k">@</span><span class="pl-smi">data</span>)
+<span class="pl-smi">map.ff</span> <span class="pl-k">&lt;-</span> fortify(<span class="pl-smi">map</span>, <span class="pl-v">region</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>id<span class="pl-pds">'</span></span>)
+<span class="pl-smi">map.df</span> <span class="pl-k">&lt;-</span> merge(<span class="pl-smi">map.ff</span>, <span class="pl-smi">map</span><span class="pl-k">@</span><span class="pl-smi">data</span>, <span class="pl-v">by</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>id<span class="pl-pds">'</span></span>)
+
+<span class="pl-c"># Map in projected coordinates</span>
+<span class="pl-smi">map2</span> <span class="pl-k">&lt;-</span> spTransform(<span class="pl-smi">map</span>, CRS(<span class="pl-s"><span class="pl-pds">"</span>+init=epsg:31983<span class="pl-pds">"</span></span>))
+<span class="pl-smi">map2</span><span class="pl-k">@</span><span class="pl-smi">data</span><span class="pl-k">$</span><span class="pl-smi">id</span> <span class="pl-k">&lt;-</span> <span class="pl-c1">1</span><span class="pl-k">:</span>nrow(<span class="pl-smi">map2</span><span class="pl-k">@</span><span class="pl-smi">data</span>)
+<span class="pl-smi">map2.ff</span> <span class="pl-k">&lt;-</span> fortify(<span class="pl-smi">map2</span>, <span class="pl-v">region</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>id<span class="pl-pds">'</span></span>)
+<span class="pl-smi">map2.df</span> <span class="pl-k">&lt;-</span> merge(<span class="pl-smi">map2.ff</span>, <span class="pl-smi">map2</span><span class="pl-k">@</span><span class="pl-smi">data</span>, <span class="pl-v">by</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>id<span class="pl-pds">'</span></span>)</pre></div>
+
+<p>ggplot map</p>
+
+<div class="highlight highlight-r"><pre>(<span class="pl-smi">ggm1</span> <span class="pl-k">&lt;-</span> ggplot(<span class="pl-v">data</span> <span class="pl-k">=</span> <span class="pl-smi">map.df</span>, aes(<span class="pl-smi">long</span>, <span class="pl-smi">lat</span>, <span class="pl-v">group</span> <span class="pl-k">=</span> <span class="pl-smi">group</span>, <span class="pl-v">fill</span> <span class="pl-k">=</span> <span class="pl-smi">nots</span>)) <span class="pl-k">+</span>
+    geom_polygon() <span class="pl-k">+</span>
+    coord_equal() <span class="pl-k">+</span>
+    geom_path() <span class="pl-k">+</span>
+    scale_fill_brewer(<span class="pl-v">name</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>Animal abuse<span class="pl-cce">\n</span>notifications<span class="pl-pds">'</span></span>, <span class="pl-v">palette</span> <span class="pl-k">=</span> <span class="pl-c1">8</span>))</pre></div>
+
+<p><img src="readme-example/map1.jpg" alt="alt tag"></p>
+
+<p>Now, let's use the ggsn package to add a blank background, a north symbol and a scaale bar with segments of 5km.</p>
+
+<div class="highlight highlight-r"><pre><span class="pl-smi">ggm1</span> <span class="pl-k">+</span>
+    blank() <span class="pl-k">+</span>
+    north(<span class="pl-smi">map.df</span>) <span class="pl-k">+</span>
+    scalebar(<span class="pl-smi">map.df</span>, <span class="pl-v">dist</span> <span class="pl-k">=</span> <span class="pl-c1">5</span>, <span class="pl-v">dd2km</span> <span class="pl-k">=</span> <span class="pl-c1">TRUE</span>, <span class="pl-v">model</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>WGS84<span class="pl-pds">'</span></span>)</pre></div>
+
+<p><img src="readme-example/map2.jpg" alt="alt tag"></p>
+
+<p>The scale bar works with maps in geographic and meter coordinates.  </p>
+
+<div class="highlight highlight-r"><pre><span class="pl-smi">ggm1</span> <span class="pl-k">+</span>
+    blank() <span class="pl-k">+</span>
+    north(<span class="pl-smi">map.df</span>) <span class="pl-k">+</span>
+    scalebar(<span class="pl-smi">map.df</span>, <span class="pl-v">dist</span> <span class="pl-k">=</span> <span class="pl-c1">5</span>, <span class="pl-v">dd2km</span> <span class="pl-k">=</span> <span class="pl-c1">TRUE</span>, <span class="pl-v">model</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>WGS84<span class="pl-pds">'</span></span>)</pre></div>
+
+<div class="highlight highlight-r"><pre>ggplot(<span class="pl-v">data</span> <span class="pl-k">=</span> <span class="pl-smi">map2.df</span>, aes(<span class="pl-smi">long</span>, <span class="pl-smi">lat</span>, <span class="pl-v">group</span> <span class="pl-k">=</span> <span class="pl-smi">group</span>, <span class="pl-v">fill</span> <span class="pl-k">=</span> <span class="pl-smi">nots</span>)) <span class="pl-k">+</span>
+    geom_polygon() <span class="pl-k">+</span>
+    coord_equal() <span class="pl-k">+</span>
+    geom_path() <span class="pl-k">+</span>
+    north(<span class="pl-smi">map2.df</span>, <span class="pl-v">symbol</span> <span class="pl-k">=</span> <span class="pl-c1">16</span>, <span class="pl-v">scale</span> <span class="pl-k">=</span> <span class="pl-c1">0.15</span>) <span class="pl-k">+</span>
+    scale_fill_brewer(<span class="pl-v">name</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>Animal abuse<span class="pl-cce">\n</span>notifications<span class="pl-pds">'</span></span>, <span class="pl-v">palette</span> <span class="pl-k">=</span> <span class="pl-c1">8</span>) <span class="pl-k">+</span>
+    scalebar(<span class="pl-smi">map2.df</span>, <span class="pl-v">dist</span> <span class="pl-k">=</span> <span class="pl-c1">5</span>) <span class="pl-k">+</span>
+    xlab(<span class="pl-s"><span class="pl-pds">'</span>Meters<span class="pl-pds">'</span></span>) <span class="pl-k">+</span>
+    ylab(<span class="pl-s"><span class="pl-pds">'</span>Meters<span class="pl-pds">'</span></span>)</pre></div>
+
+<p><img src="readme-example/map3.jpg" alt="alt tag"></p>
+
+<p>The packages ggsn and ggmap can be used together.</p>
+
+<div class="highlight highlight-r"><pre><span class="pl-smi">sp</span> <span class="pl-k">&lt;-</span> get_map(bbox(<span class="pl-smi">map</span>) <span class="pl-k">*</span> <span class="pl-k">matrix</span>(rep(c(<span class="pl-c1">1.001</span>, <span class="pl-c1">0.999</span>), <span class="pl-v">e</span> <span class="pl-k">=</span> <span class="pl-c1">2</span>), <span class="pl-v">ncol</span> <span class="pl-k">=</span> <span class="pl-c1">2</span>),
+              <span class="pl-v">source</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>osm<span class="pl-pds">'</span></span>)
+
+ggmap(<span class="pl-smi">sp</span>, <span class="pl-v">extent</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>device<span class="pl-pds">'</span></span>) <span class="pl-k">+</span>
+    geom_polygon(<span class="pl-v">data</span> <span class="pl-k">=</span> <span class="pl-smi">map.df</span>, aes(<span class="pl-smi">long</span>, <span class="pl-smi">lat</span>, <span class="pl-v">group</span> <span class="pl-k">=</span> <span class="pl-smi">group</span>, <span class="pl-v">fill</span> <span class="pl-k">=</span> <span class="pl-smi">nots</span>),
+                 <span class="pl-v">alpha</span> <span class="pl-k">=</span> .<span class="pl-c1">7</span>) <span class="pl-k">+</span>
+    coord_equal()<span class="pl-k">+</span>
+    geom_path(<span class="pl-v">data</span> <span class="pl-k">=</span> <span class="pl-smi">map.df</span>, aes(<span class="pl-smi">long</span>, <span class="pl-smi">lat</span>, <span class="pl-v">group</span> <span class="pl-k">=</span> <span class="pl-smi">group</span>)) <span class="pl-k">+</span>
+    scalebar(<span class="pl-smi">map.df</span>, <span class="pl-v">dist</span> <span class="pl-k">=</span> <span class="pl-c1">5</span>, <span class="pl-v">dd2km</span> <span class="pl-k">=</span> <span class="pl-c1">T</span>, <span class="pl-v">model</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>WGS84<span class="pl-pds">'</span></span>) <span class="pl-k">+</span>
+    north(<span class="pl-smi">map.df</span>) <span class="pl-k">+</span>
+    scale_fill_brewer(<span class="pl-v">name</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>Animal abuse<span class="pl-cce">\n</span>notifications<span class="pl-pds">'</span></span>, <span class="pl-v">palette</span> <span class="pl-k">=</span> <span class="pl-c1">8</span>) <span class="pl-k">+</span>
+    theme(<span class="pl-v">legend.position</span> <span class="pl-k">=</span> c(<span class="pl-c1">0.9</span>, <span class="pl-c1">0.35</span>))</pre></div>
+
+<p><img src="readme-example/map4.jpg" alt="alt tag"></p>
+
+<p>We have used default behaviors but we can change the position and size of the north symbol and the scale bar. For the scale bar, its hegiht, text size and text position can be controlled to. To see the available north symbols, use:</p>
+
+<div class="highlight highlight-r"><pre>symbols()</pre></div>
+
+<p><img src="readme-example/north-symbols.jpg" alt="alt tag"></p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/oswaldosantos/ggsn">ggsn</a> is maintained by <a href="https://github.com/oswaldosantos">oswaldosantos</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
