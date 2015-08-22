@@ -1,21 +1,19 @@
 Package: ggsn
 Type: Package
-Title: North symbols and scale bars for maps created with ggplot or ggmap
-Depends:
-    R (>= 3.2.1),
-    ggplot2
-Imports:
-    png,
-    grid,
-    maptools
-Suggests:
-    rgdal,
-    ggmap
-Description: Adds north symbols (18 options) and scale bars in kilometers to maps in geographic or metric coordinates created with ggplot or ggmap.
+Title: North Symbols and Scale Bars for Maps Created with 'ggplot2' or
+        'ggmap'
+Depends: R (>= 3.2.1), ggplot2
+Imports: png, grid, maptools, graphics
+Suggests: rgdal, ggmap, rgeos
+Description: Adds north symbols (18 options) and scale bars in kilometers to maps in geographic or metric coordinates created with 'ggplot2' or 'ggmap'.
 License: GPL (>= 2)
 LazyLoad: yes
 URL: https://github.com/oswaldosantos/ggsn
 Authors@R: c(person(given='Oswaldo', family='Santos Baquero',
     email='oswaldosant@gmail.com', role=c("aut", "cre")))
-Version: 0.1.1
-Date: 2015-08-21
+Version: 0.2.0
+Date: 2015-08-22
+NeedsCompilation: no
+Packaged: 2015-08-22 10:20:07 UTC; oswaldo
+Author: Oswaldo Santos Baquero [aut, cre]
+Maintainer: Oswaldo Santos Baquero <oswaldosant@gmail.com>
