@@ -10,7 +10,7 @@
 #' Suggests: \tab rgdal, ggmap\cr
 #' License: \tab GPL (>= 2)\cr
 #' LazyLoad: \tab yes\cr
-#' URL: \tab \url{http://oswaldosantos.github.io/capm}\cr
+#' URL: \tab \url{https://github.com/oswaldosantos/ggsn}\cr
 #' Author: \tab Oswaldo Santos Baquero \email{oswaldosant@@gmail.com}\cr
 #' Maintainer: \tab Oswaldo Santos Baquero \email{oswaldosant@@gmail.com}\cr
 #' }

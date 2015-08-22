@@ -14,7 +14,7 @@ Suggests:
 Description: Adds north symbols (18 options) and scale bars in kilometers to maps in geographic or metric coordinates created with ggplot or ggmap.
 License: GPL (>= 2)
 LazyLoad: yes
-URL: http://oswaldosantos.github.io/capm
+URL: https://github.com/oswaldosantos/ggsn
 Authors@R: c(person(given='Oswaldo', family='Santos Baquero',
     email='oswaldosant@gmail.com', role=c("aut", "cre")))
 Version: 0.1.1
