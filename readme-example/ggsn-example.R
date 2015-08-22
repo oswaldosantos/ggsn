@@ -13,13 +13,11 @@ map2@data$id <- 1:nrow(map2@data)
 map2.ff <- fortify(map2, region = 'id')
 map2.df <- merge(map2.ff, map2@data, by = 'id')
 
-tiff('north-symbols.tiff', width = 6.83, height = 6.83,
-     units = 'in', compression = 'lzw', res = 600)
+jpeg('north-symbolsjpg')
 northSymbols()
 dev.off()
 
-tiff('map1.tiff', width = 6.83, height = 6.83,
-     units = 'in', compression = 'lzw', res = 600)
+jpeg('map1.jpg')
 (ggm1 <- ggplot(data = map.df, aes(long, lat, group = group, fill = nots)) +
     geom_polygon() +
     coord_equal() +
@@ -27,15 +25,14 @@ tiff('map1.tiff', width = 6.83, height = 6.83,
     scale_fill_brewer(name = 'Animal abuse\nnotifications', palette = 8))
 dev.off()
 
-tiff('map2.tiff', width = 6.83, height = 6.83,
-     units = 'in', compression = 'lzw', res = 600)
+jpeg('map2.jpg')
 ggm1 +
     blank() +
     north(map.df) +
     scalebar(map.df, dist = 5, dd2km = TRUE, model = 'WGS84', st.size = 4)
 dev.off()
 
-tiff('map3.tiff', width = 6.83, height = 6.83,
+jpg('map3jpg', width = 6.83, height = 6.83,
      units = 'in', compression = 'lzw', res = 600)
 ggplot(data = map2.df, aes(long, lat, group = group, fill = nots)) +
     geom_polygon() +
@@ -51,8 +48,7 @@ dev.off()
 sp <- get_map(bbox(map) * matrix(rep(c(1.001, 0.999), e = 2), ncol = 2),
               source = 'osm')
 
-tiff('map4.tiff', width = 6.83, height = 6.83,
-     units = 'in', compression = 'lzw', res = 600)
+jpg('map4jpg')
 ggmap(sp, extent = 'device') +
     geom_polygon(data = map.df, aes(long, lat, group = group, fill = nots),
                  alpha = .7) +
