@@ -16,8 +16,6 @@ north2(ggp, x = 0.65, y = 0.9, scale = 0.1, symbol = 1)
 \item{scale}{number between 0 and 1 to indicate the symbol size as a proportion of the plot area (not the map size).}
 
 \item{symbol}{number between 1 and 18 to choose a symbol (see \code{\link{symbols}}).}
-
-\item{location}{string indicating the symbol's location in the plot. Possible options: "topright" (defualt), "bottomright", "bottomleft" and "topleft".}
 }
 \description{
 Alternative implementation to add a north symbol to a ggplot map.
