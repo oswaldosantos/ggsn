@@ -30,7 +30,7 @@
 #'     coord_equal() +
 #'     geom_path() +
 #'     scale_fill_brewer(name = 'Animal abuse\nnotifications', palette = 8) +
-#'     scalebar(map.df, dist = 5, dd2km = T, model = 'WGS84')
+#'     scalebar(map.df, dist = 5, dd2km = TRUE, model = 'WGS84')
 #'
 #' ## Map in meter coordinates.
 #' map2 <- spTransform(map, CRS("+init=epsg:31983"))
@@ -51,7 +51,7 @@
 #'     geom_path() +
 #'     scale_fill_brewer(name = 'Animal abuse\nnotifications', palette = 8) +
 #'     scalebar(map2.df, dist = 7, anchor = c(x = 355000, y = 7360000),
-#'              st.bottom = F, st.size = 8)
+#'              st.bottom = FALSE, st.size = 8)
 #' 
 #' ggplot(data = map2.df, aes(long, lat, group = group, fill = nots)) +
 #'     geom_polygon() +
