@@ -45,10 +45,16 @@ ggplot(data = map2.df, aes(long, lat, group = group, fill = nots)) +
     ylab('Meters')
 dev.off()
 
+jpeg('map4.jpg')
+ggm1 +
+    north(map.df) +
+    scalebar(map.df, dist = 5, dd2km = TRUE, model = 'WGS84', st.size = 4)
+dev.off()
+
 sp <- get_map(bbox(map) * matrix(rep(c(1.001, 0.999), e = 2), ncol = 2),
               source = 'osm')
 
-jpg('map4jpg')
+jpeg('map5.jpg')
 ggmap(sp, extent = 'device') +
     geom_polygon(data = map.df, aes(long, lat, group = group, fill = nots),
                  alpha = .7) +
