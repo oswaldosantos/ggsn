@@ -64,7 +64,7 @@ To install the production version use: ̀ r install_github('oswaldosantos/ggsn')
     north(<span class="pl-smi">map.df</span>) <span class="pl-k">+</span>
     scalebar(<span class="pl-smi">map.df</span>, <span class="pl-v">dist</span> <span class="pl-k">=</span> <span class="pl-c1">5</span>, <span class="pl-v">dd2km</span> <span class="pl-k">=</span> <span class="pl-c1">TRUE</span>, <span class="pl-v">model</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>WGS84<span class="pl-pds">'</span></span>)</pre></div>
 
-<p><img src="readme-example/map2.jpg" alt="alt tag"></p>
+<p><img src="https://cloud.githubusercontent.com/assets/3876657/9424404/bc5e88ca-48c1-11e5-9f43-ef62225545a8.jpg" alt="alt tag"></p>
 
 <p>The scale bar works with maps in geographic and meter coordinates.  </p>
 
@@ -83,9 +83,11 @@ To install the production version use: ̀ r install_github('oswaldosantos/ggsn')
     xlab(<span class="pl-s"><span class="pl-pds">'</span>Meters<span class="pl-pds">'</span></span>) <span class="pl-k">+</span>
     ylab(<span class="pl-s"><span class="pl-pds">'</span>Meters<span class="pl-pds">'</span></span>)</pre></div>
 
-<p><img src="readme-example/map3.jpg" alt="alt tag"></p>
+<p><img src="https://cloud.githubusercontent.com/assets/3876657/9424407/c22f248a-48c1-11e5-9b65-b63d4691b334.jpg" alt="alt tag"></p>
 
-<p>The packages ggsn and ggmap can be used together.</p>
+<p><img src="https://cloud.githubusercontent.com/assets/3876657/9424480/7afac044-48c4-11e5-9403-b8a440d348b4.jpg" alt="alt tag"></p>
+
+<p>The packages "ggsn" and "ggmap" can be used together.</p>
 
 <div class="highlight highlight-r"><pre><span class="pl-smi">sp</span> <span class="pl-k">&lt;-</span> get_map(bbox(<span class="pl-smi">map</span>) <span class="pl-k">*</span> <span class="pl-k">matrix</span>(rep(c(<span class="pl-c1">1.001</span>, <span class="pl-c1">0.999</span>), <span class="pl-v">e</span> <span class="pl-k">=</span> <span class="pl-c1">2</span>), <span class="pl-v">ncol</span> <span class="pl-k">=</span> <span class="pl-c1">2</span>),
               <span class="pl-v">source</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>osm<span class="pl-pds">'</span></span>)
@@ -100,13 +102,13 @@ ggmap(<span class="pl-smi">sp</span>, <span class="pl-v">extent</span> <span cla
     scale_fill_brewer(<span class="pl-v">name</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>Animal abuse<span class="pl-cce">\n</span>notifications<span class="pl-pds">'</span></span>, <span class="pl-v">palette</span> <span class="pl-k">=</span> <span class="pl-c1">8</span>) <span class="pl-k">+</span>
     theme(<span class="pl-v">legend.position</span> <span class="pl-k">=</span> c(<span class="pl-c1">0.9</span>, <span class="pl-c1">0.35</span>))</pre></div>
 
-<p><img src="readme-example/map4.jpg" alt="alt tag"></p>
+<p><img src="https://cloud.githubusercontent.com/assets/3876657/9424481/82dd8576-48c4-11e5-957b-5bf2ccb689c8.jpg" alt="alt tag"></p>
 
 <p>We have used default behaviors but we can change the position and size of the north symbol and the scale bar. For the scale bar, its hegiht, text size and text position can be controlled to. To see the available north symbols, use:</p>
 
 <div class="highlight highlight-r"><pre>symbols()</pre></div>
 
-<p><img src="readme-example/north-symbols.jpg" alt="alt tag"></p>
+<p><img src="https://cloud.githubusercontent.com/assets/3876657/9424484/888714d8-48c4-11e5-8587-789eb71690c5.jpg" alt="alt tag"></p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/oswaldosantos/ggsn">ggsn</a> is maintained by <a href="https://github.com/oswaldosantos">oswaldosantos</a>.</span>
