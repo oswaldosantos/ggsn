@@ -16,7 +16,7 @@
 #' @param y.max if \code{data} is not defined, number with the maximum y coordinate. Useful for ggmap.
 #' @export
 #' @examples
-#' library(rgdal)
+#' library(rgdal); library(rgeos)
 #' dsn <- system.file('extdata', package = 'ggsn')
 #' 
 #' ## Map in geographic coordinates.

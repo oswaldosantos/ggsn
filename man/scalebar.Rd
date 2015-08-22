@@ -41,7 +41,7 @@ scalebar(data = NULL, location = "bottomright", dist, height = 0.02,
 Adds a north symbol to maps created with ggplot or ggmap.
 }
 \examples{
-library(rgdal)
+library(rgdal); library(rgeos)
 dsn <- system.file('extdata', package = 'ggsn')
 
 ## Map in geographic coordinates.
