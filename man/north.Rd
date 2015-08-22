@@ -10,11 +10,11 @@ north(data = NULL, location = "topright", scale = 0.1, symbol = 1,
 \arguments{
 \item{data}{the same \code{\link{data.frame}} passed to \code{\link{ggplot}} to plot the map.}
 
-\item{location}{string indicating the symbol's location in the plot. Possible options: "topright" (defualt), "bottomright", "bottomleft" and "topleft".}
+\item{location}{string indicating the symbol's location in the plot. Possible options: "topright" (default), "bottomright", "bottomleft" and "topleft".}
 
-\item{scale}{number between 0 and 1 to indicate the symbol size as a proportion of the map size (boundind box).}
+\item{scale}{number between 0 and 1 to indicate the symbol size as a proportion of the map size (bounding box).}
 
-\item{symbol}{number between 1 and 18 to choose a symbol (see \code{\link{symbols}}).}
+\item{symbol}{number between 1 and 18 to choose a symbol (see \code{\link{northSymbols}}).}
 
 \item{x.min}{if \code{data} is not defined, number with the minimum x coordinate. Useful for ggmap.}
 
@@ -24,10 +24,10 @@ north(data = NULL, location = "topright", scale = 0.1, symbol = 1,
 
 \item{y.max}{if \code{data} is not defined, number with the maximum y coordinate. Useful for ggmap.}
 
-\item{anchor}{named \code{\link{vector}} with coordinates to control the symbol position. For \code{location = "topright"}, \code{anchor} defines the coordinates of the symbol's topright corner and so forth. x coordinate must be named as x and y coordinate as y.}
+\item{anchor}{named \code{\link{vector}} with coordinates to control the symbol position. For \code{location = "topright"}, \code{anchor} defines the coordinates of the symbol's topright corner and so forth. The x coordinate must be named as x and the y coordinate as y.}
 }
 \description{
-Adds a north symbol to a ggplot map.
+Adds a north symbol to maps created with ggplot or ggmap.
 }
 \details{
 North symbols are included in the plot with the \code{\link{annotation_custom}} function, which do not works when used together with an empty call to ggplot (see last example). When it is convenient to use an empty call to ggplot, use \code{\link{north2}} instead.

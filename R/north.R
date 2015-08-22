@@ -1,10 +1,10 @@
 #' North symbol
-#' @description Adds a north symbol to a ggplot map.
+#' @description Adds a north symbol to maps created with ggplot or ggmap.
 #' @param data the same \code{\link{data.frame}} passed to \code{\link{ggplot}} to plot the map.
-#' @param location string indicating the symbol's location in the plot. Possible options: "topright" (defualt), "bottomright", "bottomleft" and "topleft".
-#' @param scale number between 0 and 1 to indicate the symbol size as a proportion of the map size (boundind box).
-#' @param symbol number between 1 and 18 to choose a symbol (see \code{\link{symbols}}).
-#' @param anchor named \code{\link{vector}} with coordinates to control the symbol position. For \code{location = "topright"}, \code{anchor} defines the coordinates of the symbol's topright corner and so forth. x coordinate must be named as x and y coordinate as y.
+#' @param location string indicating the symbol's location in the plot. Possible options: "topright" (default), "bottomright", "bottomleft" and "topleft".
+#' @param scale number between 0 and 1 to indicate the symbol size as a proportion of the map size (bounding box).
+#' @param symbol number between 1 and 18 to choose a symbol (see \code{\link{northSymbols}}).
+#' @param anchor named \code{\link{vector}} with coordinates to control the symbol position. For \code{location = "topright"}, \code{anchor} defines the coordinates of the symbol's topright corner and so forth. The x coordinate must be named as x and the y coordinate as y.
 #' @param x.min if \code{data} is not defined, number with the minimum x coordinate. Useful for ggmap.
 #' @param x.max if \code{data} is not defined, number with the maximum x coordinate. Useful for ggmap.
 #' @param y.min if \code{data} is not defined, number with the minimum y coordinate. Useful for ggmap.

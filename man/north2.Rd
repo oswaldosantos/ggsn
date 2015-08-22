@@ -9,16 +9,16 @@ north2(ggp, x = 0.65, y = 0.9, scale = 0.1, symbol = 1)
 \arguments{
 \item{ggp}{ggplot2 object.}
 
-\item{x}{number between 0 and 1 to indicate the x axis position of the symbol's bottomleft corner. 0 is the left side and 1 the right side.}
+\item{x}{number between 0 and 1 to indicate the x axis position of the symbol's bottom left corner. 0 is the left side and 1 the right side.}
 
-\item{y}{number between 0 and 1 to indicate the y axis position of the symbol's bottomleft corner. 0 is the bottom and 1 the top.}
+\item{y}{number between 0 and 1 to indicate the y axis position of the symbol's bottom left corner. 0 is the bottom and 1 the top.}
 
 \item{scale}{number between 0 and 1 to indicate the symbol size as a proportion of the plot area (not the map size).}
 
-\item{symbol}{number between 1 and 18 to choose a symbol (see \code{\link{symbols}}).}
+\item{symbol}{number between 1 and 18 to choose a symbol (see \code{\link{northSymbols}}).}
 }
 \description{
-Alternative implementation to add a north symbol to a ggplot map.
+Alternative implementation to add a north symbol to maps created with ggplot or map.
 }
 \details{
 North symbols are included in the plot with the \code{\link{annotation_custom}} function, which do not works when used together with an empty call to ggplot (see last example). When it is convenient to use an empty call to ggplot, use \code{\link{north2}} instead.

@@ -1,15 +1,15 @@
 #' North symbol
-#' @description Adds a north symbol to a ggplot map.
+#' @description Adds a north symbol to maps created with ggplot or ggmap.
 #' @param data the same \code{\link{data.frame}} passed to \code{\link{ggplot}} to plot the map.
-#' @param location string indicating the symbol's location in the plot. Possible options: "topright" (defualt), "bottomright", "bottomleft" and "topleft".
+#' @param location string indicating the symbol's location in the plot. Possible options: "topright" (default), "bottomright", "bottomleft" and "topleft".
 #' @param dist distance in km to represent with the scale bar.
 #' @param height number between 0 and 1 to indicate the height of the scale bar, as a proportion of the y axis.
 #' @param st.dist number between 0 and 1 to indicate the distance between the scale bar and the scale bar text, as a proportion of the y axis.
-#' @param st.bottom logical. If TRUE (default) the scale bar text is displayed at the bottom of the scale bar, else at the top.
+#' @param st.bottom logical. If TRUE (default) the scale bar text is displayed at the bottom of the scale bar, if FALSE, it is displayed at the top.
 #' @param st.size number to indicate the scale bar text size. It is passed to the size argument of \code{\link{annotate}} function.
-#' @param dd2km logical. If TRUE \code{dist} it is assumed that map coordinates are in decimal degrees, else, it assumed they are in meters.
+#' @param dd2km logical. If TRUE \code{dist} it is assumed that map coordinates are in decimal degrees, if FALSE, it assumed they are in meters.
 #' @param model choice of ellipsoid model ("WGS84", "GRS80", "Airy", "International", "Clarke", "GRS67") Used when dd2km is TRUE.
-#' @param anchor named \code{\link{vector}} with coordinates to control the symbol position. For \code{location = "topright"}, \code{anchor} defines the coordinates of the symbol's topright corner and so forth. x coordinate must be named as x and y coordinate as y.
+#' @param anchor named \code{\link{vector}} with coordinates to control the symbol position. For \code{location = "topright"}, \code{anchor} defines the coordinates of the symbol's topright corner and so forth. The x coordinate must be named as x and the y coordinate as y.
 #' @param x.min if \code{data} is not defined, number with the minimum x coordinate. Useful for ggmap.
 #' @param x.max if \code{data} is not defined, number with the maximum x coordinate. Useful for ggmap.
 #' @param y.min if \code{data} is not defined, number with the minimum y coordinate. Useful for ggmap.
