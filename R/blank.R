@@ -14,7 +14,7 @@
 #'       coord_equal() +
 #'       geom_path() +
 #'       north(map.df) +
-#'       theme_bln()
+#'       blank()
 #'       
 #' ggplot(map.df, aes(long, lat, group = group, fill = nots)) +
 #'       geom_polygon() +
@@ -22,7 +22,7 @@
 #'       geom_path() +
 #'       north(map.df)
 
-theme_bln <- function() {
+blank <- function() {
     return(
         theme(panel.grid.major = element_line(colour = 'transparent'),
               panel.grid.minor = element_line(colour = 'transparent'),
