@@ -1,6 +1,6 @@
 Package: ggsn
 Type: Package
-Title: North symbols and scale bars for ggplot and ggmap maps
+Title: North symbols and scale bars for maps created with ggplot or ggmap
 Depends:
     R (>= 3.2.1),
     ggplot2
