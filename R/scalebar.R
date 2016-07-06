@@ -1,8 +1,8 @@
-#' North symbol
-#' @description Adds a north symbol to maps created with ggplot or ggmap.
+#' Scale bar
+#' @description Adds a scale bar to maps created with ggplot or ggmap.
 #' @param data the same \code{\link{data.frame}} passed to \code{\link{ggplot}} to plot the map.
 #' @param location string indicating the symbol's location in the plot. Possible options: "topright" (default), "bottomright", "bottomleft" and "topleft".
-#' @param dist distance in km to represent with the scale bar.
+#' @param dist distance in km to represent with each segment of the scale bar.
 #' @param height number between 0 and 1 to indicate the height of the scale bar, as a proportion of the y axis.
 #' @param st.dist number between 0 and 1 to indicate the distance between the scale bar and the scale bar text, as a proportion of the y axis.
 #' @param st.bottom logical. If TRUE (default) the scale bar text is displayed at the bottom of the scale bar, if FALSE, it is displayed at the top.
@@ -14,16 +14,17 @@
 #' @param x.max if \code{data} is not defined, number with the maximum x coordinate. Useful for ggmap.
 #' @param y.min if \code{data} is not defined, number with the minimum y coordinate. Useful for ggmap.
 #' @param y.max if \code{data} is not defined, number with the maximum y coordinate. Useful for ggmap.
+#' @param facet.var if faceting, variable name used for faceting. This is useful for placing the scalebar only in one facet and must be used together with \code{facet.lev}.
+#' @param facet.lev one of the level names in \code{facet.var}. The scale bar will be drawn only in the \code{facet.lev} facet.
 #' @export
 #' @examples
-#' library(rgdal); library(rgeos)
+#' library(rgdal); library(broom)
 #' dsn <- system.file('extdata', package = 'ggsn')
-#' 
+ 
 #' ## Map in geographic coordinates.
 #' map <- readOGR(dsn, 'sp')
 #' map@@data$id <- 1:nrow(map@@data)
-#' map.ff <- fortify(map, region = 'id')
-#' map.df <- merge(map.ff, map@@data, by = 'id')
+#' map.df <- merge(tidy(map), map, by = 'id')
 #' 
 #' ggplot(data = map.df, aes(long, lat, group = group, fill = nots)) +
 #'     geom_polygon() +
@@ -32,34 +33,7 @@
 #'     scale_fill_brewer(name = 'Animal abuse\nnotifications', palette = 8) +
 #'     scalebar(map.df, dist = 5, dd2km = TRUE, model = 'WGS84')
 #'
-#' ## Map in meter coordinates.
-#' map2 <- spTransform(map, CRS("+init=epsg:31983"))
-#' map2@@data$id <- 1:nrow(map2@@data)
-#' map2.ff <- fortify(map2, region = 'id')
-#' map2.df <- merge(map2.ff, map2@@data, by = 'id')
-#' 
-#' ggplot(data = map2.df, aes(long, lat, group = group, fill = nots)) +
-#'     geom_polygon() +
-#'     coord_equal() +
-#'     geom_path() +
-#'     scale_fill_brewer(name = 'Animal abuse\nnotifications', palette = 8) +
-#'     scalebar(map2.df, dist = 5)
-#'
-#' ggplot(data = map2.df, aes(long, lat, group = group, fill = nots)) +
-#'     geom_polygon() +
-#'     coord_equal() +
-#'     geom_path() +
-#'     scale_fill_brewer(name = 'Animal abuse\nnotifications', palette = 8) +
-#'     scalebar(map2.df, dist = 7, anchor = c(x = 355000, y = 7360000),
-#'              st.bottom = FALSE, st.size = 8)
-#' 
-#' ggplot(data = map2.df, aes(long, lat, group = group, fill = nots)) +
-#'     geom_polygon() +
-#'     coord_equal() +
-#'     geom_path() +
-#'     scale_fill_brewer(name = 'Animal abuse\nnotifications', palette = 8) +
-#'     scalebar(map2.df, location = 'topright', dist = 5)
-scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02, st.dist = 0.02, st.bottom = TRUE, st.size = 5, dd2km = NULL, model, x.min, x.max, y.min, y.max, anchor = NULL){
+scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02, st.dist = 0.02, st.bottom = TRUE, st.size = 5, dd2km = NULL, model, x.min, x.max, y.min, y.max, anchor = NULL, facet.var = NULL, facet.lev = NULL){
     if (is.null(data)) {
         if (is.null(x.min) | is.null(x.max) |
             is.null(y.min) | is.null(y.max) ) {
@@ -69,8 +43,8 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
     }
     if (location == 'bottomleft') {
         if (is.null(anchor)) {
-        x <- min(data$long)
-        y <- min(data$lat)
+            x <- min(data$long)
+            y <- min(data$lat)
         } else {
             x <- as.numeric(anchor['x'])
             y <- as.numeric(anchor['y'])
@@ -80,8 +54,8 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
     }
     if (location == 'bottomright') {
         if (is.null(anchor)) {
-        x <- max(data$long)
-        y <- min(data$lat)
+            x <- max(data$long)
+            y <- min(data$lat)
         } else {
             x <- as.numeric(anchor['x'])
             y <- as.numeric(anchor['y'])
@@ -91,8 +65,8 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
     }
     if (location == 'topleft') {
         if (is.null(anchor)) {
-        x <- min(data$long)
-        y <- max(data$lat)
+            x <- min(data$long)
+            y <- max(data$lat)
         } else {
             x <- as.numeric(anchor['x'])
             y <- as.numeric(anchor['y'])
@@ -102,8 +76,8 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
     }
     if (location == 'topright') {
         if (is.null(anchor)) {
-        x <- max(data$long)
-        y <- max(data$lat)
+            x <- max(data$long)
+            y <- max(data$lat)
         } else {
             x <- as.numeric(anchor['x'])
             y <- as.numeric(anchor['y'])
@@ -140,7 +114,10 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
                        y = c(y, height, height,y, y), group = 1)
     box2 <- data.frame(x = c(rep(break1, 2), rep(break2, 2), break1),
                        y=c(y, rep(height, 2), y, y), group = 1)
-    
+    if (!is.null(facet.var) & !is.null(facet.lev)) {
+        box1[ , facet.var] <- facet.lev
+        box2[ , facet.var] <- facet.lev
+    }
     legend <- data.frame(text = c(0, dist, dist * 2))
     
     gg.box1 <- geom_polygon(data = box1, aes(x, y), fill = 'white',
@@ -151,8 +128,18 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
     if (location == 'bottomright' | location == 'topright') {
         x.st.pos <- rev(x.st.pos)
     }
-    gg.legend <- annotate('text', label = paste0(legend[,'text'], 'km'),
-                          x = x.st.pos, y = st.dist, size = st.size)
-    
+    legend2 <- cbind(data[1:3, ], x = x.st.pos, y = st.dist,
+                          label = paste0(legend[, "text"], "km"))
+    if (!is.null(facet.var) & !is.null(facet.lev)) {
+        legend2[ , facet.var] <- facet.lev
+        legend2[ , facet.var] <- facet.lev
+    }
+    if (!is.null(facet.var) & !is.null(facet.lev)) {
+        gg.legend <- geom_text(data = legend2, aes(x, y, label = label),
+                               size = st.size)
+    } else {
+        gg.legend <- annotate('text', label = paste0(legend[,'text'], 'km'),
+                              x = x.st.pos, y = st.dist, size = st.size)    
+    }
     return(list(gg.box1, gg.box2, gg.legend))
 }
