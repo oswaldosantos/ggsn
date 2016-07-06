@@ -1,3 +1,11 @@
+ggsn 0.3.0
+==========
+
+* Functions from grid package are selectively imported.
+
+* Examples changed to avoid the use of the rgdal package (currently, some user might get "WARNING: no proj_defs.dat in PROJ.4 shared files", using this package).
+
+
 ggsn 0.2.0
 ==========
 
