@@ -19,5 +19,4 @@ run_examples()
 #   capm-package
 #   NEWS
 #   CITATION
-#   Home web page
-#   Web documentation in all languages
+#   Web page
