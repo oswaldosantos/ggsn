@@ -29,7 +29,7 @@ ggplot map
     geom_path() +
     scale_fill_brewer(name = 'Animal abuse\nnotifications', palette = 8))
 ```
-![alt tag](gh-pageexample/map1.jpg)
+![alt tag](gh-page-examples/map1.jpg)
 
 Now, let's use the ggsn package to add a blank background, a north symbol and a scaale bar with segments of 5km.
 
@@ -39,7 +39,7 @@ ggm1 +
     north(map.df) +
     scalebar(map.df, dist = 5, dd2km = TRUE, model = 'WGS84')
 ```
-![alt tag](gh-pageexample/map2.jpg)
+![alt tag](gh-page-examples/map2.jpg)
 
 The scale bar works with maps in geographic and meter coordinates.  
 
@@ -60,7 +60,7 @@ ggplot(data = map2.df, aes(long, lat, group = group, fill = nots)) +
     xlab('Meters') +
     ylab('Meters')
 ```
-![alt tag](gh-pageexample/map3.jpg)
+![alt tag](gh-page-examples/map3.jpg)
 
 The packages ggsn and ggmap can be used together.
 ```{r}
@@ -77,11 +77,11 @@ ggmap(sp, extent = 'device') +
     scale_fill_brewer(name = 'Animal abuse\nnotifications', palette = 8) +
     theme(legend.position = c(0.9, 0.35))
 ```
-![alt tag](gh-pageexample/map4.jpg)
+![alt tag](gh-page-examples/map4.jpg)
 
 We have used default behaviors but we can change the position and size of the north symbol and the scale bar. For the scale bar, its hegiht, text size and text position can be controlled to. To see the available north symbols, use:
 
 ```{r}
 symbols()
 ```
-![alt tag](gh-pageexample/north-symbols.jpg)
+![alt tag](gh-page-examples/north-symbols.jpg)
