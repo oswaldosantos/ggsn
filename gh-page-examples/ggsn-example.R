@@ -3,12 +3,12 @@ shape.directory <- system.file('extdata', package = 'ggsn')
 
 # Map in geographic coordinates
 map <- readOGR(shape.directory, 'sp')
-map@data$id <- 1:nrow(map@data)
+map@data$id <- 0:(nrow(map@data) - 1)
 map.df <- merge(tidy(map), map, by = 'id')
 
 # Map in projected coordinates
 map2 <- spTransform(map, CRS("+init=epsg:31983"))
-map2@data$id <- 1:nrow(map2@data)
+map2@data$id <- 0:(nrow(map2@data) - 1)
 map2.df <- merge(tidy(map2), map2, by = 'id')
 
 jpeg('north-symbolsjpg')
@@ -30,7 +30,7 @@ ggm1 +
     scalebar(map.df, dist = 5, dd2km = TRUE, model = 'WGS84', st.size = 4)
 dev.off()
 
-jpg('map3jpg', width = 6.83, height = 6.83,
+jpeg('map3jpg', width = 6.83, height = 6.83,
      units = 'in', compression = 'lzw', res = 600)
 ggplot(data = map2.df, aes(long, lat, group = group, fill = nots)) +
     geom_polygon() +
@@ -51,7 +51,6 @@ dev.off()
 
 sp <- get_map(bbox(map) * matrix(rep(c(1.001, 0.999), e = 2), ncol = 2),
               source = 'osm')
-
 jpeg('map5.jpg')
 ggmap(sp, extent = 'device') +
     geom_polygon(data = map.df, aes(long, lat, group = group, fill = nots),

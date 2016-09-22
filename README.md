@@ -13,12 +13,12 @@ shape.directory <- system.file('extdata', package = 'ggsn')
 
 # Map in geographic coordinates
 map <- readOGR(shape.directory, 'sp')
-map@data$id <- 1:nrow(map@data)
+map@data$id <- 0:(nrow(map@data) - 1)
 map.df <- merge(tidy(map), map, by = 'id')
 
 # Map in projected coordinates
 map2 <- spTransform(map, CRS("+init=epsg:31983"))
-map2@data$id <- 1:nrow(map2@data)
+map2@data$id <- 0:(nrow(map@data) - 1)
 map2.df <- merge(tidy(map2), map2, by = 'id')
 ```  
 
