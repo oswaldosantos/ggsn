@@ -8,20 +8,18 @@ To install the production version use: ̀ r install_github('oswaldosantos/ggsn')
 
 Read a shapefile and preprae it to plot
 ```{r}
-library(ggsn); library(ggmap); library(rgdal); library(rgeos)
+library(ggsn); library(ggmap); library(rgdal); library(broom)
 shape.directory <- system.file('extdata', package = 'ggsn')
 
 # Map in geographic coordinates
 map <- readOGR(shape.directory, 'sp')
 map@data$id <- 1:nrow(map@data)
-map.ff <- fortify(map, region = 'id')
-map.df <- merge(map.ff, map@data, by = 'id')
+map.df <- merge(tidy(map), map, by = 'id')
 
 # Map in projected coordinates
 map2 <- spTransform(map, CRS("+init=epsg:31983"))
 map2@data$id <- 1:nrow(map2@data)
-map2.ff <- fortify(map2, region = 'id')
-map2.df <- merge(map2.ff, map2@data, by = 'id')
+map2.df <- merge(tidy(map2), map2, by = 'id')
 ```
 ggplot map
 ```{r}
