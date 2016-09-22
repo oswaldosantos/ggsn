@@ -1,12 +1,12 @@
 # ggsn
 The ggsn package improves the GIS capabilities of R, making possible to add 18 different north symbols and scale bars in kilometers to maps in geographic or metric coordinates created with "ggplot" or "ggmap".  
 
-To install the production version use: ̀ r install.packages('ggsn')̀
-To install the production version use: ̀ r install_github('oswaldosantos/ggsn')̀  (make surethat devtools is loaded).
+To install the production version use: `r install.packages('ggsn')̀`
+To install the production version use: `r install_github('oswaldosantos/ggsn')̀` (make surethat devtools is loaded).
 
 ## Example
 
-Read a shapefile and preprae it to plot
+Read a shapefile and preprae it to plot  
 ```{r}
 library(ggsn); library(ggmap); library(rgdal); library(broom)
 shape.directory <- system.file('extdata', package = 'ggsn')
@@ -20,35 +20,41 @@ map.df <- merge(tidy(map), map, by = 'id')
 map2 <- spTransform(map, CRS("+init=epsg:31983"))
 map2@data$id <- 1:nrow(map2@data)
 map2.df <- merge(tidy(map2), map2, by = 'id')
-```
+```  
+
 ggplot map
+
 ```{r}
 (ggm1 <- ggplot(data = map.df, aes(long, lat, group = group, fill = nots)) +
     geom_polygon() +
     coord_equal() +
     geom_path() +
     scale_fill_brewer(name = 'Animal abuse\nnotifications', palette = 8))
-```
-![alt tag](gh-page-examples/map1.jpg)
+```  
 
-Now, let's use the ggsn package to add a blank background, a north symbol and a scaale bar with segments of 5km.
+![](https://cloud.githubusercontent.com/assets/3876657/9424410/dbc23144-48c1-11e5-888d-041d28b920ae.jpg)  
+
+Now, let's use the ggsn package to add a blank background, a north symbol and a scaale bar with segments of 5km.  
 
 ```{r}
 ggm1 +
     blank() +
     north(map.df) +
     scalebar(map.df, dist = 5, dd2km = TRUE, model = 'WGS84')
-```
-![alt tag](gh-page-examples/map2.jpg)
+```  
+
+![](https://cloud.githubusercontent.com/assets/3876657/9424404/bc5e88ca-48c1-11e5-9f43-ef62225545a8.jpg)  
 
 The scale bar works with maps in geographic and meter coordinates.  
 
 ```{r}
 ggm1 +
-    blank() +
     north(map.df) +
     scalebar(map.df, dist = 5, dd2km = TRUE, model = 'WGS84')
-```
+```  
+
+![](https://cloud.githubusercontent.com/assets/3876657/9424480/7afac044-48c4-11e5-9403-b8a440d348b4.jpg)  
+
 ```{r}
 ggplot(data = map2.df, aes(long, lat, group = group, fill = nots)) +
     geom_polygon() +
@@ -59,8 +65,8 @@ ggplot(data = map2.df, aes(long, lat, group = group, fill = nots)) +
     scalebar(map2.df, dist = 5) +
     xlab('Meters') +
     ylab('Meters')
-```
-![alt tag](gh-page-examples/map3.jpg)
+```  
+![](https://cloud.githubusercontent.com/assets/3876657/9424407/c22f248a-48c1-11e5-9b65-b63d4691b334.jpg)  
 
 The packages ggsn and ggmap can be used together.
 ```{r}
@@ -76,12 +82,12 @@ ggmap(sp, extent = 'device') +
     north(map.df) +
     scale_fill_brewer(name = 'Animal abuse\nnotifications', palette = 8) +
     theme(legend.position = c(0.9, 0.35))
-```
-![alt tag](gh-page-examples/map4.jpg)
+```  
+![](https://cloud.githubusercontent.com/assets/3876657/9424481/82dd8576-48c4-11e5-957b-5bf2ccb689c8.jpg)  
 
-We have used default behaviors but we can change the position and size of the north symbol and the scale bar. For the scale bar, its hegiht, text size and text position can be controlled to. To see the available north symbols, use:
+We have used default behaviors but we can change the position and size of the north symbol and the scale bar. For the scale bar, its hegiht, text size and text position can be controlled to. To see the available north symbols, use:  
 
 ```{r}
 symbols()
-```
-![alt tag](gh-page-examples/north-symbols.jpg)
+```  
+![](https://cloud.githubusercontent.com/assets/3876657/9424484/888714d8-48c4-11e5-8587-789eb71690c5.jpg)
