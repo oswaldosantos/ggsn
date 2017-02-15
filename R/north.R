@@ -96,7 +96,7 @@ north <- function(data = NULL, location = 'topright', scale = 0.1, symbol = 1, x
             x.max <- max(data$long)
             y.max <- max(data$lat)
         } else {
-            x.min <- anchor['x']
+            x.max <- anchor['x']
             y.max <- anchor['y']
         }
         x.min <- x.max - scale.x
