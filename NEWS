@@ -1,3 +1,11 @@
+ggsn 0.4.0
+==========
+
+* scalebar function now support two faceting variables, thanks to Johan Junkka.
+
+* Fixed typo for north function (when location == 'topright'), thanks to Weihuang Wong.
+
+
 ggsn 0.3.1
 ==========
 
