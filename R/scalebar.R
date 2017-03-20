@@ -111,7 +111,7 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
         
     }
     box1 <- data.frame(x = c(x, x, rep(break1, 2), x),
-                       y = c(y, height, height,y, y), group = 1)
+                       y = c(y, height, height, y, y), group = 1)
     box2 <- data.frame(x = c(rep(break1, 2), rep(break2, 2), break1),
                        y=c(y, rep(height, 2), y, y), group = 1)
     if (!is.null(facet.var) & !is.null(facet.lev)) {
@@ -134,7 +134,6 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
                           label = paste0(legend[, "text"], "km"))
     if (!is.null(facet.var) & !is.null(facet.lev)) {
         for (i in 1:length(facet.var)){
-            legend2[ , facet.var[i]] <- facet.lev[i]
             legend2[ , facet.var[i]] <- facet.lev[i]
         }
     }

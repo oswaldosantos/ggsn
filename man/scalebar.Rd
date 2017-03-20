@@ -38,9 +38,9 @@ scalebar(data = NULL, location = "bottomright", dist, height = 0.02,
 
 \item{anchor}{named \code{\link{vector}} with coordinates to control the symbol position. For \code{location = "topright"}, \code{anchor} defines the coordinates of the symbol's topright corner and so forth. The x coordinate must be named as x and the y coordinate as y.}
 
-\item{facet.var}{if faceting, variable name used for faceting. This is useful for placing the scalebar only in one facet and must be used together with \code{facet.lev}.}
+\item{facet.var}{if faceting, character vector of variable names used for faceting. This is useful for placing the scalebar only in one facet and must be used together with \code{facet.lev}.}
 
-\item{facet.lev}{one of the level names in \code{facet.var}. The scale bar will be drawn only in the \code{facet.lev} facet.}
+\item{facet.lev}{character vector with the name of one level for each variable in \code{facet.var}. The scale bar will be drawn only in the \code{facet.lev} facet.}
 }
 \description{
 Adds a scale bar to maps created with ggplot or ggmap.
@@ -48,6 +48,7 @@ Adds a scale bar to maps created with ggplot or ggmap.
 \examples{
 library(rgdal); library(broom)
 dsn <- system.file('extdata', package = 'ggsn')
+
 ## Map in geographic coordinates.
 map <- readOGR(dsn, 'sp')
 map@data$id <- 1:nrow(map@data)
