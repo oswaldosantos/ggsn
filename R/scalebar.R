@@ -14,13 +14,13 @@
 #' @param x.max if \code{data} is not defined, number with the maximum x coordinate. Useful for ggmap.
 #' @param y.min if \code{data} is not defined, number with the minimum y coordinate. Useful for ggmap.
 #' @param y.max if \code{data} is not defined, number with the maximum y coordinate. Useful for ggmap.
-#' @param facet.var if faceting, variable name used for faceting. This is useful for placing the scalebar only in one facet and must be used together with \code{facet.lev}.
-#' @param facet.lev one of the level names in \code{facet.var}. The scale bar will be drawn only in the \code{facet.lev} facet.
+#' @param facet.var if faceting, character vector of variable names used for faceting. This is useful for placing the scalebar only in one facet and must be used together with \code{facet.lev}.
+#' @param facet.lev character vector with the name of one level for each variable in \code{facet.var}. The scale bar will be drawn only in the \code{facet.lev} facet.
 #' @export
 #' @examples
 #' library(rgdal); library(broom)
 #' dsn <- system.file('extdata', package = 'ggsn')
- 
+#' 
 #' ## Map in geographic coordinates.
 #' map <- readOGR(dsn, 'sp')
 #' map@@data$id <- 1:nrow(map@@data)
@@ -115,8 +115,10 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
     box2 <- data.frame(x = c(rep(break1, 2), rep(break2, 2), break1),
                        y=c(y, rep(height, 2), y, y), group = 1)
     if (!is.null(facet.var) & !is.null(facet.lev)) {
-        box1[ , facet.var] <- facet.lev
-        box2[ , facet.var] <- facet.lev
+        for (i in 1:length(facet.var)){
+            box1[ , facet.var[i]] <- facet.lev[i]
+            box2[ , facet.var[i]] <- facet.lev[i]    
+        }
     }
     legend <- data.frame(text = c(0, dist, dist * 2))
     
@@ -131,8 +133,10 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
     legend2 <- cbind(data[1:3, ], x = x.st.pos, y = st.dist,
                           label = paste0(legend[, "text"], "km"))
     if (!is.null(facet.var) & !is.null(facet.lev)) {
-        legend2[ , facet.var] <- facet.lev
-        legend2[ , facet.var] <- facet.lev
+        for (i in 1:length(facet.var)){
+            legend2[ , facet.var[i]] <- facet.lev[i]
+            legend2[ , facet.var[i]] <- facet.lev[i]
+        }
     }
     if (!is.null(facet.var) & !is.null(facet.lev)) {
         gg.legend <- geom_text(data = legend2, aes(x, y, label = label),
