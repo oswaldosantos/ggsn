@@ -7,6 +7,9 @@
 #' @param st.dist number between 0 and 1 to indicate the distance between the scale bar and the scale bar text, as a proportion of the y axis.
 #' @param st.bottom logical. If TRUE (default) the scale bar text is displayed at the bottom of the scale bar, if FALSE, it is displayed at the top.
 #' @param st.size number to indicate the scale bar text size. It is passed to the size argument of \code{\link{annotate}} function.
+#' @param st.color scale bar text color. Default is black.
+#' @param box.fill box fill color. If vector of two colors, the two boxes are filled with a different color. Defaults to black and white.
+#' @param box.color box border color. If vector of two colors, the borders of the two boxes are colored differently. Defaults to black.
 #' @param dd2km logical. If TRUE \code{dist} it is assumed that map coordinates are in decimal degrees, if FALSE, it assumed they are in meters.
 #' @param model choice of ellipsoid model ("WGS84", "GRS80", "Airy", "International", "Clarke", "GRS67") Used when dd2km is TRUE.
 #' @param anchor named \code{\link{vector}} with coordinates to control the symbol position. For \code{location = "topright"}, \code{anchor} defines the coordinates of the symbol's topright corner and so forth. The x coordinate must be named as x and the y coordinate as y.
@@ -18,7 +21,7 @@
 #' @param facet.lev character vector with the name of one level for each variable in \code{facet.var}. The scale bar will be drawn only in the \code{facet.lev} facet.
 #' @export
 #' @examples
-#' library(rgdal); library(broom)
+#' library(rgdal); library(broom); library(ggplot2)
 #' dsn <- system.file('extdata', package = 'ggsn')
 #' 
 #' ## Map in geographic coordinates.
@@ -26,14 +29,18 @@
 #' map@@data$id <- 1:nrow(map@@data)
 #' map.df <- merge(tidy(map), map, by = 'id')
 #' 
-#' ggplot(data = map.df, aes(long, lat, group = group, fill = nots)) +
-#'     geom_polygon() +
-#'     coord_equal() +
-#'     geom_path() +
-#'     scale_fill_brewer(name = 'Animal abuse\nnotifications', palette = 8) +
-#'     scalebar(map.df, dist = 5, dd2km = TRUE, model = 'WGS84')
+#' p <- ggplot(data = map.df, aes(long, lat, group = group, fill = nots)) +
+#'         geom_polygon() +
+#'         coord_equal() +
+#'         geom_path() +
+#'         scale_fill_brewer(name = 'Animal abuse\nnotifications', palette = 8)
+#' p + scalebar(map.df, dist = 5, dd2km = TRUE, model = 'WGS84')
+#' p + scalebar(map.df, dist = 5, dd2km = TRUE, model = 'WGS84', box.fill = c("#fef0d9", "#b30000"), st.color = "#fc8d59")
+#' p + theme_dark() +
+#'     geom_polygon(color = "white") +
+#'     scalebar(map.df, dist = 5, dd2km = TRUE, model = 'WGS84', box.fill = c("#fdd49e", "#b30000"), box.color = "white", st.color = "white")
 #'
-scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02, st.dist = 0.02, st.bottom = TRUE, st.size = 5, dd2km = NULL, model, x.min, x.max, y.min, y.max, anchor = NULL, facet.var = NULL, facet.lev = NULL){
+scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02, st.dist = 0.02, st.bottom = TRUE, st.size = 5, st.color = "black", box.fill = c("black", "white"), box.color = "black", dd2km = NULL, model, x.min, x.max, y.min, y.max, anchor = NULL, facet.var = NULL, facet.lev = NULL){
     if (is.null(data)) {
         if (is.null(x.min) | is.null(x.max) |
             is.null(y.min) | is.null(y.max) ) {
@@ -122,10 +129,10 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
     }
     legend <- data.frame(text = c(0, dist, dist * 2))
     
-    gg.box1 <- geom_polygon(data = box1, aes(x, y), fill = 'white',
-                            color = 'black')
-    gg.box2 <- geom_polygon(data = box2, aes(x, y), fill = 'black',
-                            color = 'black')
+    gg.box1 <- geom_polygon(data = box1, aes(x, y), fill = tail(box.fill, 1),
+                            color = tail(box.color, 1))
+    gg.box2 <- geom_polygon(data = box2, aes(x, y), fill = box.fill[1],
+                            color = box.color[1])
     x.st.pos <- c(box1[c(1, 3), 1], box2[3, 1])
     if (location == 'bottomright' | location == 'topright') {
         x.st.pos <- rev(x.st.pos)
@@ -139,10 +146,10 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
     }
     if (!is.null(facet.var) & !is.null(facet.lev)) {
         gg.legend <- geom_text(data = legend2, aes(x, y, label = label),
-                               size = st.size)
+                               size = st.size, color = st.color)
     } else {
         gg.legend <- annotate('text', label = paste0(legend[,'text'], 'km'),
-                              x = x.st.pos, y = st.dist, size = st.size)    
+                              x = x.st.pos, y = st.dist, size = st.size, color = st.color)    
     }
     return(list(gg.box1, gg.box2, gg.legend))
 }

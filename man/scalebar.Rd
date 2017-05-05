@@ -5,8 +5,9 @@
 \title{Scale bar}
 \usage{
 scalebar(data = NULL, location = "bottomright", dist, height = 0.02,
-  st.dist = 0.02, st.bottom = TRUE, st.size = 5, dd2km = NULL, model,
-  x.min, x.max, y.min, y.max, anchor = NULL, facet.var = NULL,
+  st.dist = 0.02, st.bottom = TRUE, st.size = 5, st.color = "black",
+  box.fill = c("black", "white"), box.color = "black", dd2km = NULL,
+  model, x.min, x.max, y.min, y.max, anchor = NULL, facet.var = NULL,
   facet.lev = NULL)
 }
 \arguments{
@@ -23,6 +24,12 @@ scalebar(data = NULL, location = "bottomright", dist, height = 0.02,
 \item{st.bottom}{logical. If TRUE (default) the scale bar text is displayed at the bottom of the scale bar, if FALSE, it is displayed at the top.}
 
 \item{st.size}{number to indicate the scale bar text size. It is passed to the size argument of \code{\link{annotate}} function.}
+
+\item{st.color}{scale bar text color. Default is black.}
+
+\item{box.fill}{box fill color. If vector of two colors, the two boxes are filled with a different color. Defaults to black and white.}
+
+\item{box.color}{box border color. If vector of two colors, the borders of the two boxes are colored differently. Defaults to black.}
 
 \item{dd2km}{logical. If TRUE \code{dist} it is assumed that map coordinates are in decimal degrees, if FALSE, it assumed they are in meters.}
 
@@ -46,7 +53,7 @@ scalebar(data = NULL, location = "bottomright", dist, height = 0.02,
 Adds a scale bar to maps created with ggplot or ggmap.
 }
 \examples{
-library(rgdal); library(broom)
+library(rgdal); library(broom); library(ggplot2)
 dsn <- system.file('extdata', package = 'ggsn')
 
 ## Map in geographic coordinates.
@@ -54,12 +61,16 @@ map <- readOGR(dsn, 'sp')
 map@data$id <- 1:nrow(map@data)
 map.df <- merge(tidy(map), map, by = 'id')
 
-ggplot(data = map.df, aes(long, lat, group = group, fill = nots)) +
-    geom_polygon() +
-    coord_equal() +
-    geom_path() +
-    scale_fill_brewer(name = 'Animal abuse\\nnotifications', palette = 8) +
-    scalebar(map.df, dist = 5, dd2km = TRUE, model = 'WGS84')
+p <- ggplot(data = map.df, aes(long, lat, group = group, fill = nots)) +
+        geom_polygon() +
+        coord_equal() +
+        geom_path() +
+        scale_fill_brewer(name = 'Animal abuse\\nnotifications', palette = 8)
+p + scalebar(map.df, dist = 5, dd2km = TRUE, model = 'WGS84')
+p + scalebar(map.df, dist = 5, dd2km = TRUE, model = 'WGS84', box.fill = c("#fef0d9", "#b30000"), st.color = "#fc8d59")
+p + theme_dark() +
+    geom_polygon(color = "white") +
+    scalebar(map.df, dist = 5, dd2km = TRUE, model = 'WGS84', box.fill = c("#fdd49e", "#b30000"), box.color = "white", st.color = "white")
 
 }
 
