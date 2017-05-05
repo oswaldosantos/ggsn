@@ -36,5 +36,11 @@ map.df <- merge(tidy(map), map, by = 'id')
    geom_path() +
    scale_fill_brewer(name = 'Animal abuse\\nnotifications', palette = 8)} \%>\% 
    add_north()
+{ggplot(data = map.df, aes(long, lat, group = group, fill = nots)) +
+    geom_polygon() +
+    coord_equal() +
+    geom_path() +
+    scale_fill_brewer(name = 'Animal abuse\\nnotifications', palette = 8)} \%>\% 
+    add_north(x = 0.6, y = 0.3, scale = 0.2)
 }
 

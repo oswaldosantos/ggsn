@@ -9,7 +9,8 @@ Imports:
     png,
     grid,
     maptools,
-    graphics
+    graphics,
+    utils
 Suggests:
     rgdal,
     ggmap,

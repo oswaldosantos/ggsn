@@ -35,10 +35,12 @@
 #'         geom_path() +
 #'         scale_fill_brewer(name = 'Animal abuse\nnotifications', palette = 8)
 #' p + scalebar(map.df, dist = 5, dd2km = TRUE, model = 'WGS84')
-#' p + scalebar(map.df, dist = 5, dd2km = TRUE, model = 'WGS84', box.fill = c("#fef0d9", "#b30000"), st.color = "#fc8d59")
+#' p + scalebar(map.df, dist = 5, dd2km = TRUE, model = 'WGS84',
+#'     box.fill = c("#fef0d9", "#b30000"), st.color = "#fc8d59")
 #' p + theme_dark() +
 #'     geom_polygon(color = "white") +
-#'     scalebar(map.df, dist = 5, dd2km = TRUE, model = 'WGS84', box.fill = c("#fdd49e", "#b30000"), box.color = "white", st.color = "white")
+#'     scalebar(map.df, dist = 5, dd2km = TRUE, model = 'WGS84',
+#'     box.fill = c("#fdd49e", "#b30000"), box.color = "white", st.color = "white")
 #'
 scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02, st.dist = 0.02, st.bottom = TRUE, st.size = 5, st.color = "black", box.fill = c("black", "white"), box.color = "black", dd2km = NULL, model, x.min, x.max, y.min, y.max, anchor = NULL, facet.var = NULL, facet.lev = NULL){
     if (is.null(data)) {
@@ -129,8 +131,8 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
     }
     legend <- data.frame(text = c(0, dist, dist * 2))
     
-    gg.box1 <- geom_polygon(data = box1, aes(x, y), fill = tail(box.fill, 1),
-                            color = tail(box.color, 1))
+    gg.box1 <- geom_polygon(data = box1, aes(x, y), fill = utils::tail(box.fill, 1),
+                            color = utils::tail(box.color, 1))
     gg.box2 <- geom_polygon(data = box2, aes(x, y), fill = box.fill[1],
                             color = box.color[1])
     x.st.pos <- c(box1[c(1, 3), 1], box2[3, 1])

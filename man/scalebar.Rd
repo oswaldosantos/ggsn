@@ -67,10 +67,12 @@ p <- ggplot(data = map.df, aes(long, lat, group = group, fill = nots)) +
         geom_path() +
         scale_fill_brewer(name = 'Animal abuse\\nnotifications', palette = 8)
 p + scalebar(map.df, dist = 5, dd2km = TRUE, model = 'WGS84')
-p + scalebar(map.df, dist = 5, dd2km = TRUE, model = 'WGS84', box.fill = c("#fef0d9", "#b30000"), st.color = "#fc8d59")
+p + scalebar(map.df, dist = 5, dd2km = TRUE, model = 'WGS84',
+    box.fill = c("#fef0d9", "#b30000"), st.color = "#fc8d59")
 p + theme_dark() +
     geom_polygon(color = "white") +
-    scalebar(map.df, dist = 5, dd2km = TRUE, model = 'WGS84', box.fill = c("#fdd49e", "#b30000"), box.color = "white", st.color = "white")
+    scalebar(map.df, dist = 5, dd2km = TRUE, model = 'WGS84',
+    box.fill = c("#fdd49e", "#b30000"), box.color = "white", st.color = "white")
 
 }
 
