@@ -13,7 +13,8 @@ Imports:
 Suggests:
     rgdal,
     ggmap,
-    broom
+    broom,
+    magrittr
 Description: Adds north symbols (18 options) and scale bars in kilometers to
     maps in geographic or metric coordinates created with 'ggplot2' or 'ggmap'.
 License: GPL (>= 2)
