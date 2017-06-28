@@ -93,24 +93,27 @@ ggplot(data = map2.df, aes(long, lat, group = group, fill = nots)) +
 
 The packages **ggsn** and **ggmap** can be used together:
 ```{r}
-# library(ggmap)
-# library(sp)
-# map_coord = as.vector(bbox(map) * matrix(rep(c(1.001, 0.999), e = 2), ncol = 2))
-# sp <- get_map(map_coord, source = 'osm')
-# 
-# ggmap(sp, extent = 'device') +
-#     geom_polygon(data = map.df, aes(long, lat, group = group, fill = nots),
-#                  alpha = .7) +
-#     coord_equal()+
-#     geom_path(data = map.df, aes(long, lat, group = group)) +
-#     scalebar(map.df, dist = 5, dd2km = T, model = 'WGS84') +
-#     north(map.df) +
-#     scale_fill_brewer(name = 'Animal abuse\nnotifications', palette = 8) +
-#     theme(legend.position = c(0.9, 0.35))
+library(ggmap)
+library(sp)
+sp <- get_googlemap("São Paulo")
+bb <- c(bbox(map) * matrix(rep(c(1.001, 0.999), e = 2), ncol = 2))
+nms <- names(attr(sp, "bb"))
+attr(sp, "bb")[1, ] <- bb[c(2, 1, 4, 3)]
+
+ggmap(sp) +
+    geom_polygon(data = map.df, aes(long, lat, group = group, fill = nots),
+                 alpha = .7) +
+    coord_equal() +
+    geom_path(data = map.df, aes(long, lat, group = group)) +
+    blank() +
+    scalebar(map.df, dist = 5, dd2km = T, model = 'WGS84') +
+    north(map.df) +
+    scale_fill_brewer(name = 'Animal abuse\nnotifications', palette = 8) +
+    theme(legend.position = c(0.9, 0.35))
 ```
 
 We have used default behaviors but we can change the position and size of the north symbol and the scale bar. For the scale bar, its height, text size and text position can be controlled too. To see the available north symbols, use:
 
 ```{r}
-# symbols()
+northSymbols()
 ```  

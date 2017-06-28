@@ -3,4 +3,6 @@
 LICENSE
 dev_tools
 README.md
+README.Rmd
+./figure
 gh-page-examples
