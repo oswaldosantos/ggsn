@@ -1,7 +1,4 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-ggsn
-====
-
 The **ggsn** package improves the GIS capabilities of R, making possible to add 18 different north symbols and scale bars in kilometers to maps in geographic or metric coordinates created with **ggplot** or **ggmap**.
 
 To install the CRAN version use:
