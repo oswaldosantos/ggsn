@@ -1,27 +1,43 @@
+---
+output:
+  md_document:
+    variant: markdown_github
+---
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-ggsn
-====
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "figure/",
+  fig.width = 8,
+  fig.height = 10,
+  message = FALSE
+)
+```
+
+# ggsn
 
 The **ggsn** package improves the GIS capabilities of R, making possible to add 18 different north symbols and scale bars in kilometers to maps in geographic or metric coordinates created with **ggplot** or **ggmap**.
 
-To install the CRAN version use:
+To install the CRAN version use: 
 
-``` r
+```R
 install.packages('ggsn')
 ```
 
 To install the development version use (make sure that **devtools** is installed):
 
-``` r
+```R
 devtools::install_github('oswaldosantos/ggsn')
 ```
 
-Examples
---------
+## Examples
 
 Read a shapefile and prepare it to plot:
 
-``` r
+```{r}
 library(ggsn); library(ggmap); library(rgdal); library(broom)
 shape.directory <- system.file('extdata', package = 'ggsn')
 
@@ -38,7 +54,7 @@ map2.df <- merge(tidy(map2), map2, by = 'id')
 
 **ggplot** map:
 
-``` r
+```{r}
 (ggm1 <- ggplot(data = map.df, aes(long, lat, group = group, fill = nots)) +
     geom_polygon() +
     coord_equal() +
@@ -46,30 +62,24 @@ map2.df <- merge(tidy(map2), map2, by = 'id')
     scale_fill_brewer(name = 'Animal abuse\nnotifications', palette = 8))
 ```
 
-![](figure/unnamed-chunk-3-1.png)
-
 Now, let's use the **ggsn** package to add a blank background, a north symbol and a scale bar with segments of 5km:
 
-``` r
+```{r}
 ggm1 +
     blank() +
     north(map.df) +
     scalebar(map.df, dist = 5, dd2km = TRUE, model = 'WGS84')
 ```
 
-![](figure/unnamed-chunk-4-1.png)
-
 The scale bar works with maps in geographic and meter coordinates:
 
-``` r
+```{r}
 ggm1 +
     north(map.df) +
     scalebar(map.df, dist = 5, dd2km = TRUE, model = 'WGS84')
 ```
 
-![](figure/unnamed-chunk-5-1.png)
-
-``` r
+```{r}
 ggplot(data = map2.df, aes(long, lat, group = group, fill = nots)) +
     geom_polygon() +
     coord_equal() +
@@ -81,11 +91,8 @@ ggplot(data = map2.df, aes(long, lat, group = group, fill = nots)) +
     ylab('Meters')
 ```
 
-![](figure/unnamed-chunk-6-1.png)
-
 The packages **ggsn** and **ggmap** can be used together:
-
-``` r
+```{r}
 # library(ggmap)
 # library(sp)
 # map_coord = as.vector(bbox(map) * matrix(rep(c(1.001, 0.999), e = 2), ncol = 2))
@@ -104,6 +111,6 @@ The packages **ggsn** and **ggmap** can be used together:
 
 We have used default behaviors but we can change the position and size of the north symbol and the scale bar. For the scale bar, its height, text size and text position can be controlled too. To see the available north symbols, use:
 
-``` r
+```{r}
 # symbols()
-```
+```  
