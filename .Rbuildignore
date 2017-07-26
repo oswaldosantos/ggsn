@@ -4,5 +4,6 @@ LICENSE
 dev_tools
 README.md
 README.Rmd
-./figure
+figure
 gh-page-examples
+_config.yml
