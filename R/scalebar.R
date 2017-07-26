@@ -21,27 +21,25 @@
 #' @param facet.lev character vector with the name of one level for each variable in \code{facet.var}. The scale bar will be drawn only in the \code{facet.lev} facet.
 #' @export
 #' @examples
-#' library(rgdal); library(broom); library(ggplot2)
+#' library(sf)
 #' dsn <- system.file('extdata', package = 'ggsn')
+#' map <- st_read(dsn, 'sp')
 #' 
-#' ## Map in geographic coordinates.
-#' map <- readOGR(dsn, 'sp')
-#' map@@data$id <- 1:nrow(map@@data)
-#' map.df <- merge(tidy(map), map, by = 'id')
-#' 
-#' p <- ggplot(data = map.df, aes(long, lat, group = group, fill = nots)) +
-#'         geom_polygon() +
-#'         coord_equal() +
-#'         geom_path() +
-#'         scale_fill_brewer(name = 'Animal abuse\nnotifications', palette = 8)
-#' p + scalebar(map.df, dist = 5, dd2km = TRUE, model = 'WGS84')
-#' p + scalebar(map.df, dist = 5, dd2km = TRUE, model = 'WGS84',
-#'     box.fill = c("#fef0d9", "#b30000"), st.color = "#fc8d59")
-#' p + theme_dark() +
-#'     geom_polygon(color = "white") +
-#'     scalebar(map.df, dist = 5, dd2km = TRUE, model = 'WGS84',
-#'     box.fill = c("#fdd49e", "#b30000"), box.color = "white", st.color = "white")
+#' # If "map" is a "sp" object, convert it to "sf" with map <- st_as_sf(map).
 #'
+#' # Map in geographic coordinates
+#' ggplot(map, aes(fill = nots)) +
+#'     geom_sf() +
+#'     scalebar(map, , dist = 5, dd2km = TRUE, model = 'WGS84') +
+#'     scale_fill_brewer(name = 'Animal abuse\nnotifications', palette = 8)
+#'
+#' # Map in projected coordinates
+#' map2 <- st_transform(map, 31983)
+#' ggplot(map2, aes(fill = nots)) +
+#'     geom_sf() +
+#'     scalebar(map2, , dist = 5, model = 'WGS84') +
+#'     scale_fill_brewer(name = 'Animal abuse\nnotifications', palette = 8)
+#'     
 scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02, st.dist = 0.02, st.bottom = TRUE, st.size = 5, st.color = "black", box.fill = c("black", "white"), box.color = "black", dd2km = NULL, model, x.min, x.max, y.min, y.max, anchor = NULL, facet.var = NULL, facet.lev = NULL){
     if (is.null(data)) {
         if (is.null(x.min) | is.null(x.max) |
@@ -50,10 +48,21 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
         }
         data <- data.frame(long = c(x.min, x.max), lat = c(y.min, y.max))
     }
+    if (any(class(data) %in% "sf")) {
+        xmin <- st_bbox(data)["xmin"]
+        xmax <- st_bbox(data)["xmax"]
+        ymin <- st_bbox(data)["ymin"]
+        ymax <- st_bbox(data)["ymax"]
+    } else {
+        xmin <- min(data$long)
+        xmax <- max(data$long)
+        ymin <- min(data$lat)
+        ymax <- max(data$lat)
+    }
     if (location == 'bottomleft') {
         if (is.null(anchor)) {
-            x <- min(data$long)
-            y <- min(data$lat)
+            x <- xmin
+            y <- ymin
         } else {
             x <- as.numeric(anchor['x'])
             y <- as.numeric(anchor['y'])
@@ -63,8 +72,8 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
     }
     if (location == 'bottomright') {
         if (is.null(anchor)) {
-            x <- max(data$long)
-            y <- min(data$lat)
+            x <- xmax
+            y <- ymin
         } else {
             x <- as.numeric(anchor['x'])
             y <- as.numeric(anchor['y'])
@@ -74,8 +83,8 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
     }
     if (location == 'topleft') {
         if (is.null(anchor)) {
-            x <- min(data$long)
-            y <- max(data$lat)
+            x <- xmin
+            y <- ymax
         } else {
             x <- as.numeric(anchor['x'])
             y <- as.numeric(anchor['y'])
@@ -85,8 +94,8 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
     }
     if (location == 'topright') {
         if (is.null(anchor)) {
-            x <- max(data$long)
-            y <- max(data$lat)
+            x <- xmax
+            y <- ymax
         } else {
             x <- as.numeric(anchor['x'])
             y <- as.numeric(anchor['y'])
@@ -96,11 +105,11 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
     }
     if (!st.bottom) {
         st.dist <-
-            y + (max(data$lat) - min(data$lat)) * (height + st.dist)
+            y + (ymax - ymin) * (height + st.dist)
     } else {
-        st.dist <- y - (max(data$lat) - min(data$lat)) * st.dist
+        st.dist <- y - (ymax - ymin) * st.dist
     }
-    height <- y + (max(data$lat) - min(data$lat)) * height
+    height <- y + (ymax - ymin) * height
     
     if (!is.null(dd2km)) {
         break1 <- gcDestination(lon = x, lat = y, bearing = 90 * direction,
@@ -129,7 +138,7 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
             box2[ , facet.var[i]] <- facet.lev[i]    
         }
     }
-    legend <- data.frame(text = c(0, dist, dist * 2))
+    legend <- cbind(text = c(0, dist, dist * 2), row.names = NULL)
     
     gg.box1 <- geom_polygon(data = box1, aes(x, y), fill = utils::tail(box.fill, 1),
                             color = utils::tail(box.color, 1))
@@ -140,7 +149,7 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
         x.st.pos <- rev(x.st.pos)
     }
     legend2 <- cbind(data[1:3, ], x = x.st.pos, y = st.dist,
-                          label = paste0(legend[, "text"], "km"))
+                     label = paste0(legend[, "text"], "km"))
     if (!is.null(facet.var) & !is.null(facet.lev)) {
         for (i in 1:length(facet.var)){
             legend2[ , facet.var[i]] <- facet.lev[i]
@@ -150,8 +159,8 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
         gg.legend <- geom_text(data = legend2, aes(x, y, label = label),
                                size = st.size, color = st.color)
     } else {
-        gg.legend <- annotate('text', label = paste0(legend[,'text'], 'km'),
-                              x = x.st.pos, y = st.dist, size = st.size, color = st.color)    
+        gg.legend <- geom_text(data = legend2, aes(x, y, label = label),
+                               size = st.size, color = st.color)
     }
     return(list(gg.box1, gg.box2, gg.legend))
 }

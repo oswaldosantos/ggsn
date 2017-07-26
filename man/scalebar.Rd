@@ -53,26 +53,23 @@ scalebar(data = NULL, location = "bottomright", dist, height = 0.02,
 Adds a scale bar to maps created with ggplot or ggmap.
 }
 \examples{
-library(rgdal); library(broom); library(ggplot2)
+library(sf)
 dsn <- system.file('extdata', package = 'ggsn')
+map <- st_read(dsn, 'sp')
 
-## Map in geographic coordinates.
-map <- readOGR(dsn, 'sp')
-map@data$id <- 1:nrow(map@data)
-map.df <- merge(tidy(map), map, by = 'id')
+# If "map" is a "sp" object, convert it to "sf" with map <- st_as_sf(map).
 
-p <- ggplot(data = map.df, aes(long, lat, group = group, fill = nots)) +
-        geom_polygon() +
-        coord_equal() +
-        geom_path() +
-        scale_fill_brewer(name = 'Animal abuse\\nnotifications', palette = 8)
-p + scalebar(map.df, dist = 5, dd2km = TRUE, model = 'WGS84')
-p + scalebar(map.df, dist = 5, dd2km = TRUE, model = 'WGS84',
-    box.fill = c("#fef0d9", "#b30000"), st.color = "#fc8d59")
-p + theme_dark() +
-    geom_polygon(color = "white") +
-    scalebar(map.df, dist = 5, dd2km = TRUE, model = 'WGS84',
-    box.fill = c("#fdd49e", "#b30000"), box.color = "white", st.color = "white")
+# Map in geographic coordinates
+ggplot(map, aes(fill = nots)) +
+    geom_sf() +
+    scalebar(map, , dist = 5, dd2km = TRUE, model = 'WGS84') +
+    scale_fill_brewer(name = 'Animal abuse\\nnotifications', palette = 8)
 
+# Map in projected coordinates
+map2 <- st_transform(map, 31983)
+ggplot(map2, aes(fill = nots)) +
+    geom_sf() +
+    scalebar(map2, , dist = 5, model = 'WGS84') +
+    scale_fill_brewer(name = 'Animal abuse\\nnotifications', palette = 8)
+    
 }
-
