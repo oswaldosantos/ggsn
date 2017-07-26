@@ -33,40 +33,25 @@ Adds a north symbol to maps created with ggplot or ggmap.
 North symbols are included in the plot with the \code{\link{annotation_custom}} function, which do not works when used together with an empty call to ggplot (see last example). When it is convenient to use an empty call to ggplot, use \code{\link{north2}} instead.
 }
 \examples{
-library(rgdal); library(broom)
+library(sf)
 dsn <- system.file('extdata', package = 'ggsn')
-map <- readOGR(dsn, 'sp')
-map@data$id <- 1:nrow(map@data)
-map.df <- merge(tidy(map), map, by = 'id')
+map <- st_read(dsn, 'sp')
 
-ggplot(map.df, aes(long, lat, group = group, fill = nots)) +
-    geom_polygon() +
-    coord_equal() +
-    geom_path() +
-    north(map.df) +
+# If "map" is a "sp" object, convert it to "sf" with map <- st_as_sf(map).
+
+ggplot(map, aes(fill = nots)) +
+    geom_sf() +
+    north(map) +
     scale_fill_brewer(name = 'Animal abuse\\nnotifications', palette = 8)
 
-ggplot(data = map.df, aes(long, lat, group = group, fill = nots)) +
-    geom_polygon() +
-    coord_equal() +
-    geom_path() +
-    north(map.df, location = 'bottomleft', symbol = 8) +
+ggplot(map, aes(fill = nots)) +
+    geom_sf() +
+    north(map, location = 'bottomleft', symbol = 8) +
     scale_fill_brewer(name = 'Animal abuse\\nnotifications', palette = 8)
 
-ggplot(map.df, aes(long, lat, group = group, fill = nots)) +
-    geom_polygon() +
-    coord_equal() +
-    geom_path() +
-    north(data = map.df, location = 'bottomright', scale = 0.2, symbol = 14,
+ggplot(map, aes(fill = nots)) +
+    geom_sf() +
+    north(data = map, location = 'bottomright', scale = 0.2, symbol = 14,
           anchor = c(x = -46.4, y = -23.9)) +
     scale_fill_brewer(name = 'Animal abuse\\nnotifications', palette = 8)
-
-\dontrun{
-ggplot() +
-   geom_polygon(data = map.df, aes(long, lat, group = group, fill = nots)) +
-   coord_equal() +
-   geom_path() +
-   north(map.df)
 }
-}
-

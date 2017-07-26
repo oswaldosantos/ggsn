@@ -24,18 +24,15 @@ Alternative implementation to add a north symbol to maps created with ggplot or 
 North symbols are included in the plot with the \code{\link{annotation_custom}} function, which do not works when used together with an empty call to ggplot (see last example). When it is convenient to use an empty call to ggplot, use \code{\link{north2}} instead.
 }
 \examples{
-library(rgdal); library(broom)
+library(sf)
 dsn <- system.file('extdata', package = 'ggsn')
-map <- readOGR(dsn, 'sp')
-map@data$id <- 0:(nrow(map@data) - 1)
-map.df <- merge(tidy(map), map, by = 'id')
+map <- st_read(dsn, 'sp')
 
-map2 <- ggplot(data = map.df, aes(long, lat, group = group, fill = nots)) +
-    geom_polygon() +
-    coord_equal() +
-    geom_path() +
+# If "map" is a "sp" object, convert it to "sf" with map <- st_as_sf(map).
+
+map2 <- ggplot(map, aes(fill = nots)) +
+    geom_sf() +
     scale_fill_brewer(name = 'Animal abuse\\nnotifications', palette = 8)
-
 north2(map2, .5, .5)
-}
 
+}
