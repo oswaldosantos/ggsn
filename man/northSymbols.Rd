@@ -18,4 +18,3 @@ northSymbols()
 \references{
 http://www.qgis.org/en/site
 }
-
