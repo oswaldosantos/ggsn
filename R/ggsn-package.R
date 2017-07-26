@@ -3,8 +3,8 @@
 #' \tabular{ll}{
 #' Package: \tab ggsn\cr
 #' Type: \tab Package\cr
-#' Version: \tab 0.4.0\cr
-#' Date: \tab 2016-03-20\cr
+#' Version: \tab 0.4.1\cr
+#' Date: \tab 2016-07-26\cr
 #' Depends: \tab R (>= 3.3.1), ggplot2\cr
 #' Imports: \tab png, grid, maptools\cr
 #' Suggests: \tab rgdal, ggmap, broom\cr
@@ -19,7 +19,7 @@
 #' @docType package
 #' @title The ggsn Package
 #' @keywords package
-#' @import ggplot2 png maptools
+#' @import ggplot2 sf png maptools
 #' @importFrom grid viewport pushViewport grid.newpage grid.layout rasterGrob
 #' @importFrom graphics plot rasterImage
 NULL
