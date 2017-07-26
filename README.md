@@ -77,13 +77,18 @@ The packages **ggsn** and **ggmap** can be used together:
 ``` r
 library(ggmap)
 library(sp)
+library(rgdal)
 library(broom)
 sp <- get_googlemap("São Paulo")
 bb <- c(st_bbox(map) * matrix(rep(c(1.001, 0.999), e = 2), ncol = 2))
 nms <- names(attr(sp, "bb"))
 attr(sp, "bb")[1, ] <- bb[c(2, 1, 4, 3)]
 
-map_sp <- as(map, "Spatial")
+map_sp <- readOGR(dsn, "sp")
+#> OGR data source with driver: ESRI Shapefile 
+#> Source: "/home/oswaldo/R/x86_64-pc-linux-gnu-library/3.4/ggsn/extdata", layer: "sp"
+#> with 96 features
+#> It has 2 fields
 map_sp@data$id <- 0:(nrow(map_sp@data) - 1)
 map_sp <- merge(tidy(map_sp), map_sp, by = 'id')
 
