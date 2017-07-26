@@ -10,24 +10,17 @@ blank()
 ggplot blank theme.
 }
 \examples{
-library(rgdal)
-library(broom)
+library(sf)
 dsn <- system.file('extdata', package = 'ggsn')
-map <- readOGR(dsn, 'sp')
-map@data$id <- 0:(nrow(map@data) - 1)
-map.df <- merge(tidy(map), map, by = 'id')
+map <- st_read(dsn, 'sp')
 
-ggplot(map.df, aes(long, lat, group = group, fill = nots)) +
-      geom_polygon() +
-      coord_equal() +
-      geom_path() +
-      north(map.df) +
-      blank()
-      
-ggplot(map.df, aes(long, lat, group = group, fill = nots)) +
-      geom_polygon() +
-      coord_equal() +
-      geom_path() +
-      north(map.df)
+# If "map" is a "sp" object, convert it to "sf" with map <- st_as_sf(map).
+
+# Map in geographic coordinates
+ggplot(map, aes(fill = nots)) +
+    geom_sf() +
+    scalebar(map, , dist = 5, dd2km = TRUE, model = 'WGS84') +
+    blank() +
+    scale_fill_brewer(name = 'Animal abuse\\nnotifications', palette = 8)
+    
 }
-
