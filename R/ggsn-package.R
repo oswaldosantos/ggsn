@@ -3,8 +3,8 @@
 #' \tabular{ll}{
 #' Package: \tab ggsn\cr
 #' Type: \tab Package\cr
-#' Version: \tab 0.4.1\cr
-#' Date: \tab 2016-07-26\cr
+#' Version: \tab 0.4.2\cr
+#' Date: \tab 2016-08-07\cr
 #' Depends: \tab R (>= 3.3.1), ggplot2\cr
 #' Imports: \tab png, grid, maptools\cr
 #' Suggests: \tab rgdal, ggmap, broom\cr

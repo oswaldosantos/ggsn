@@ -10,7 +10,7 @@
 #' @param st.color scale bar text color. Default is black.
 #' @param box.fill box fill color. If vector of two colors, the two boxes are filled with a different color. Defaults to black and white.
 #' @param box.color box border color. If vector of two colors, the borders of the two boxes are colored differently. Defaults to black.
-#' @param dd2km logical. If TRUE \code{dist} it is assumed that map coordinates are in decimal degrees, if FALSE, it assumed they are in meters.
+#' @param dd2km logical. If TRUE, it is assumed that coordinates are in decimal degrees. If FALSE, it assumed they are in meters.
 #' @param model choice of ellipsoid model ("WGS84", "GRS80", "Airy", "International", "Clarke", "GRS67") Used when dd2km is TRUE.
 #' @param anchor named \code{\link{vector}} with coordinates to control the symbol position. For \code{location = "topright"}, \code{anchor} defines the coordinates of the symbol's topright corner and so forth. The x coordinate must be named as x and the y coordinate as y.
 #' @param x.min if \code{data} is not defined, number with the minimum x coordinate. Useful for ggmap.
@@ -37,7 +37,7 @@
 #' map2 <- st_transform(map, 31983)
 #' ggplot(map2, aes(fill = nots)) +
 #'     geom_sf() +
-#'     scalebar(map2, , dist = 5, model = 'WGS84') +
+#'     scalebar(map2, dd2km = FALSE, dist = 5, model = 'WGS84') +
 #'     scale_fill_brewer(name = 'Animal abuse\nnotifications', palette = 8)
 #'     
 scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02, st.dist = 0.02, st.bottom = TRUE, st.size = 5, st.color = "black", box.fill = c("black", "white"), box.color = "black", dd2km = NULL, model, x.min, x.max, y.min, y.max, anchor = NULL, facet.var = NULL, facet.lev = NULL){
@@ -47,6 +47,9 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
             stop('If data is not defined, x.min, x.max, y.min and y.max must be.')
         }
         data <- data.frame(long = c(x.min, x.max), lat = c(y.min, y.max))
+    }
+    if (is.null(dd2km)) {
+        stop("dd2km should be logical.")
     }
     if (any(class(data) %in% "sf")) {
         xmin <- st_bbox(data)["xmin"]
@@ -111,7 +114,7 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
     }
     height <- y + (ymax - ymin) * height
     
-    if (!is.null(dd2km)) {
+    if (dd2km) {
         break1 <- gcDestination(lon = x, lat = y, bearing = 90 * direction,
                                 dist = dist, dist.units = 'km',
                                 model = model)[1, 1]

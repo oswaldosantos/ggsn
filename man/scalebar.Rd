@@ -31,7 +31,7 @@ scalebar(data = NULL, location = "bottomright", dist, height = 0.02,
 
 \item{box.color}{box border color. If vector of two colors, the borders of the two boxes are colored differently. Defaults to black.}
 
-\item{dd2km}{logical. If TRUE \code{dist} it is assumed that map coordinates are in decimal degrees, if FALSE, it assumed they are in meters.}
+\item{dd2km}{logical. If TRUE, it is assumed that coordinates are in decimal degrees. If FALSE, it assumed they are in meters.}
 
 \item{model}{choice of ellipsoid model ("WGS84", "GRS80", "Airy", "International", "Clarke", "GRS67") Used when dd2km is TRUE.}
 
@@ -69,7 +69,7 @@ ggplot(map, aes(fill = nots)) +
 map2 <- st_transform(map, 31983)
 ggplot(map2, aes(fill = nots)) +
     geom_sf() +
-    scalebar(map2, , dist = 5, model = 'WGS84') +
+    scalebar(map2, dd2km = FALSE, dist = 5, model = 'WGS84') +
     scale_fill_brewer(name = 'Animal abuse\\nnotifications', palette = 8)
     
 }
