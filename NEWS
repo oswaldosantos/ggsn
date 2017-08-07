@@ -1,9 +1,14 @@
+ggsn 0.4.2
+==========
+
+* Bug fixed in the dd2km argument of scalebar.
+
 ggsn 0.4.1
 ==========
 
 * Support for objects of class sf.
 
-* scalebar function allows customization of colors.
+* scalebar function allows customization of colors, thanks to Bart Rogiers.
 
 ggsn 0.4.0
 ==========
