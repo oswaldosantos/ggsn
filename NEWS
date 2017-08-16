@@ -1,3 +1,8 @@
+ggsn 0.4.3
+==========
+
+* substitution of ggplot::annotation_custom by ggmap::inset in functions north and north2.
+
 ggsn 0.4.2
 ==========
 

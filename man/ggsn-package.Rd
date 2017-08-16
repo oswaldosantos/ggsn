@@ -11,11 +11,11 @@ North symbols and scale bars for maps created with 'ggplot' or 'ggmap'. Adds nor
 \tabular{ll}{
 Package: \tab ggsn\cr
 Type: \tab Package\cr
-Version: \tab 0.4.2\cr
-Date: \tab 2016-08-07\cr
-Depends: \tab R (>= 3.3.1), ggplot2\cr
-Imports: \tab png, grid, maptools\cr
-Suggests: \tab rgdal, ggmap, broom\cr
+Version: \tab 0.4.3\cr
+Date: \tab 2016-08-16\cr
+Depends: \tab R (>= 3.4.1), ggplot2\cr
+Imports: \tab grid, ggmap, sf, png, maptools\cr
+Suggests: \tab rgdal, broom\cr
 License: \tab GPL (>= 2)\cr
 LazyLoad: \tab yes\cr
 URL: \tab \url{https://github.com/oswaldosantos/ggsn}\cr
