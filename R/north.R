@@ -43,10 +43,10 @@ north <- function(data = NULL, location = 'topright', scale = 0.1, symbol = 1, x
         data <- data.frame(long = c(x.min, x.max), lat = c(y.min, y.max))
     }
     if (any(class(data) %in% "sf")) {
-        xmin <- st_bbox(data)["xmin"]
-        xmax <- st_bbox(data)["xmax"]
-        ymin <- st_bbox(data)["ymin"]
-        ymax <- st_bbox(data)["ymax"]
+        xmin <- sf::st_bbox(data)["xmin"]
+        xmax <- sf::st_bbox(data)["xmax"]
+        ymin <- sf::st_bbox(data)["ymin"]
+        ymax <- sf::st_bbox(data)["ymax"]
         scale.x <- (xmax - xmin) * scale
         scale.y <- (ymax - ymin) * scale
     } else {
@@ -102,10 +102,10 @@ north <- function(data = NULL, location = 'topright', scale = 0.1, symbol = 1, x
         y.min <- y.max - scale.y
     }
     symbol <- sprintf("%02.f", symbol)
-    symbol <- readPNG(paste0(system.file('symbols', package = 'ggsn'),
+    symbol <- png::readPNG(paste0(system.file('symbols', package = 'ggsn'),
                              '/', symbol, '.png'))
-    symbol <- rasterGrob(symbol, interpolate = TRUE)
-    return(annotation_custom(symbol,
-                             xmin = x.min, xmax = x.max,
-                             ymin = y.min, ymax = y.max))
+    symbol <- grid::rasterGrob(symbol, interpolate = TRUE)
+    return(ggmap::inset(symbol,
+                 xmin = x.min, xmax = x.max,
+                 ymin = y.min, ymax = y.max))
 }

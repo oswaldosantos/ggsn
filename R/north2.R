@@ -22,12 +22,12 @@
 #' 
 north2 <- function(ggp, x = 0.65, y = 0.9, scale = 0.1, symbol = 1) {
     symbol <- sprintf("%02.f", symbol)
-    symbol <- readPNG(paste0(system.file('symbols', package = 'ggsn'),
+    symbol <- png::readPNG(paste0(system.file('symbols', package = 'ggsn'),
                              '/', symbol, '.png'))
-    symbol <- rasterGrob(symbol, interpolate = TRUE)
-    inset <- qplot(0:1, 0:1, geom = "blank") + blank() +
-        annotation_custom(symbol, xmin = 0, xmax = 1, ymin = 0, ymax = 1)
-    vp <- viewport(x, y, scale, scale)
+    symbol <- grid::rasterGrob(symbol, interpolate = TRUE)
+    ins <- qplot(0:1, 0:1, geom = "blank") + blank() +
+        ggmap::inset(symbol, xmin = 0, xmax = 1, ymin = 0, ymax = 1)
+    vp <- grid::viewport(x, y, scale, scale)
     print(ggp)
-    print(inset, vp = vp)
+    print(ins, vp = vp)
 }
