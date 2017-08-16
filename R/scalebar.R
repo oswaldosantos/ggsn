@@ -52,10 +52,10 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
         stop("dd2km should be logical.")
     }
     if (any(class(data) %in% "sf")) {
-        xmin <- st_bbox(data)["xmin"]
-        xmax <- st_bbox(data)["xmax"]
-        ymin <- st_bbox(data)["ymin"]
-        ymax <- st_bbox(data)["ymax"]
+        xmin <- sf::st_bbox(data)["xmin"]
+        xmax <- sf::st_bbox(data)["xmax"]
+        ymin <- sf::st_bbox(data)["ymin"]
+        ymax <- sf::st_bbox(data)["ymax"]
     } else {
         xmin <- min(data$long)
         xmax <- max(data$long)
@@ -115,10 +115,12 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
     height <- y + (ymax - ymin) * height
     
     if (dd2km) {
-        break1 <- gcDestination(lon = x, lat = y, bearing = 90 * direction,
+        break1 <- maptools::gcDestination(lon = x, lat = y,
+                                          bearing = 90 * direction,
                                 dist = dist, dist.units = 'km',
                                 model = model)[1, 1]
-        break2 <- gcDestination(lon = x, lat = y, bearing = 90 * direction,
+        break2 <- maptools::gcDestination(lon = x, lat = y,
+                                          bearing = 90 * direction,
                                 dist = dist*2, dist.units = 'km',
                                 model = model)[1, 1]
     } else {
