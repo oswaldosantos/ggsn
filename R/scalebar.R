@@ -117,12 +117,12 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
     if (dd2km) {
         break1 <- maptools::gcDestination(lon = x, lat = y,
                                           bearing = 90 * direction,
-                                dist = dist, dist.units = 'km',
-                                model = model)[1, 1]
+                                          dist = dist, dist.units = 'km',
+                                          model = model)[1, 1]
         break2 <- maptools::gcDestination(lon = x, lat = y,
                                           bearing = 90 * direction,
-                                dist = dist*2, dist.units = 'km',
-                                model = model)[1, 1]
+                                          dist = dist*2, dist.units = 'km',
+                                          model = model)[1, 1]
     } else {
         if (location == 'bottomleft' | location == 'topleft') {
             break1 <- x + dist * 1e3
@@ -139,13 +139,19 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
                        y=c(y, rep(height, 2), y, y), group = 1)
     if (!is.null(facet.var) & !is.null(facet.lev)) {
         for (i in 1:length(facet.var)){
-            box1[ , facet.var[i]] <- facet.lev[i]
-            box2[ , facet.var[i]] <- facet.lev[i]    
+            if (!is.factor(data[ , facet.var[i]])) {
+                data[ , facet.var[i]] <- factor(data[ , facet.var[i]])
+            }
+            box1[ , facet.var[i]] <- factor(facet.lev[i],
+                                            levels(data[ , facet.var[i]]))
+            box2[ , facet.var[i]] <- factor(facet.lev[i],
+                                            levels(data[ , facet.var[i]]))
         }
     }
     legend <- cbind(text = c(0, dist, dist * 2), row.names = NULL)
     
-    gg.box1 <- geom_polygon(data = box1, aes(x, y), fill = utils::tail(box.fill, 1),
+    gg.box1 <- geom_polygon(data = box1, aes(x, y),
+                            fill = utils::tail(box.fill, 1),
                             color = utils::tail(box.color, 1))
     gg.box2 <- geom_polygon(data = box2, aes(x, y), fill = box.fill[1],
                             color = box.color[1])
@@ -157,7 +163,8 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
                      label = paste0(legend[, "text"], "km"))
     if (!is.null(facet.var) & !is.null(facet.lev)) {
         for (i in 1:length(facet.var)){
-            legend2[ , facet.var[i]] <- facet.lev[i]
+            legend2[ , facet.var[i]] <- factor(facet.lev[i],
+                                               levels(data[ , facet.var[i]]))
         }
     }
     if (!is.null(facet.var) & !is.null(facet.lev)) {
