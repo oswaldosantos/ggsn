@@ -1,7 +1,12 @@
+ggsn 0.4.4
+==========
+
+* Bug fixed in scalebar to preserve the order of levels when arguments facet.var and facet.lev are used.
+
 ggsn 0.4.3
 ==========
 
-* substitution of ggplot::annotation_custom by ggmap::inset in functions north and north2.
+* Substitution of ggplot::annotation_custom by ggmap::inset in functions north and north2.
 
 ggsn 0.4.2
 ==========
