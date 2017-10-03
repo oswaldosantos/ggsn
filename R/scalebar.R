@@ -159,7 +159,7 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
     if (location == 'bottomright' | location == 'topright') {
         x.st.pos <- rev(x.st.pos)
     }
-    legend2 <- cbind(data[1:3, ], x = x.st.pos, y = st.dist,
+    legend2 <- cbind(data[1:3, ], x = unname(x.st.pos), y = unname(st.dist),
                      label = paste0(legend[, "text"], "km"))
     if (!is.null(facet.var) & !is.null(facet.lev)) {
         for (i in 1:length(facet.var)){
