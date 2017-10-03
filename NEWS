@@ -1,3 +1,8 @@
+ggsn 0.4.5
+==========
+
+* Bug fixed in scalebar to avoid warning about row names.
+
 ggsn 0.4.4
 ==========
 
