@@ -160,7 +160,7 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
         x.st.pos <- rev(x.st.pos)
     }
     legend2 <- cbind(data[1:3, ], x = unname(x.st.pos), y = unname(st.dist),
-                     label = paste0(legend[, "text"], "km"))
+                     label = paste0(legend[, "text"], c("", "", "km")))
     if (!is.null(facet.var) & !is.null(facet.lev)) {
         for (i in 1:length(facet.var)){
             legend2[ , facet.var[i]] <- factor(facet.lev[i],
