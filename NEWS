@@ -1,3 +1,8 @@
+ggsn 0.4.6
+==========
+
+* Scalebar now shows "km" only at the right side of the scale.
+
 ggsn 0.4.5
 ==========
 
