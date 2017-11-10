@@ -139,13 +139,24 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
                        y=c(y, rep(height, 2), y, y), group = 1)
     if (!is.null(facet.var) & !is.null(facet.lev)) {
         for (i in 1:length(facet.var)){
-            if (!is.factor(data[ , facet.var[i]])) {
-                data[ , facet.var[i]] <- factor(data[ , facet.var[i]])
+            if (any(class(data) == "sf")) {
+                if (!is.factor(data[ , facet.var[i]])) {
+                    data[ , facet.var[i]] <- factor(data[ , facet.var[i]][[1]])
+                }
+                box1[ , facet.var[i]] <- factor(facet.lev[i],
+                                                levels(data[ , facet.var[i]][[1]]))
+                box2[ , facet.var[i]] <- factor(facet.lev[i],
+                                                levels(data[ , facet.var[i]][[1]]))
+            } else {
+                if (!is.factor(data[ , facet.var[i]])) {
+                    data[ , facet.var[i]] <- factor(data[ , facet.var[i]])
+                }
+                box1[ , facet.var[i]] <- factor(facet.lev[i],
+                                                levels(data[ , facet.var[i]]))
+                box2[ , facet.var[i]] <- factor(facet.lev[i],
+                                                levels(data[ , facet.var[i]]))
             }
-            box1[ , facet.var[i]] <- factor(facet.lev[i],
-                                            levels(data[ , facet.var[i]]))
-            box2[ , facet.var[i]] <- factor(facet.lev[i],
-                                            levels(data[ , facet.var[i]]))
+            
         }
     }
     legend <- cbind(text = c(0, dist, dist * 2), row.names = NULL)
@@ -163,8 +174,13 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
                      label = paste0(legend[, "text"], c("", "", "km")))
     if (!is.null(facet.var) & !is.null(facet.lev)) {
         for (i in 1:length(facet.var)){
-            legend2[ , facet.var[i]] <- factor(facet.lev[i],
-                                               levels(data[ , facet.var[i]]))
+            if (any(class(data) == "sf")) {
+                legend2[ , facet.var[i]] <- factor(facet.lev[i],
+                                                   levels(data[ , facet.var[i]][[1]]))
+            } else {
+                legend2[ , facet.var[i]] <- factor(facet.lev[i],
+                                                   levels(data[ , facet.var[i]]))
+            }
         }
     }
     if (!is.null(facet.var) & !is.null(facet.lev)) {
