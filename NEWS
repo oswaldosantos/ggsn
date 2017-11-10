@@ -1,7 +1,12 @@
+ggsn 0.4.7
+==========
+
+* Bug fiex in scalebar for facted maps.
+
 ggsn 0.4.6
 ==========
 
-* Scalebar now shows "km" only at the right side of the scale.
+* scalebar now shows "km" only at the right side of the scale.
 
 ggsn 0.4.5
 ==========
