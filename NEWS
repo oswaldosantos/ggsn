@@ -1,3 +1,8 @@
+ggsn 0.4.8
+==========
+
+* scalebar has a new argument: dist_unit.
+
 ggsn 0.4.7
 ==========
 
