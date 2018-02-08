@@ -3,6 +3,7 @@
 #' @param data the same \code{\link{data.frame}} passed to \code{\link{ggplot}} to plot the map.
 #' @param location string indicating the symbol's location in the plot. Possible options: "topright" (default), "bottomright", "bottomleft" and "topleft".
 #' @param dist distance in km to represent with each segment of the scale bar.
+#' @param dist_unit when \code{dist} is used, it defines the unit of measurement.  Possbile values: "km" and "m".
 #' @param height number between 0 and 1 to indicate the height of the scale bar, as a proportion of the y axis.
 #' @param st.dist number between 0 and 1 to indicate the distance between the scale bar and the scale bar text, as a proportion of the y axis.
 #' @param st.bottom logical. If TRUE (default) the scale bar text is displayed at the bottom of the scale bar, if FALSE, it is displayed at the top.
@@ -40,7 +41,7 @@
 #'     scalebar(map2, dd2km = FALSE, dist = 5, model = 'WGS84') +
 #'     scale_fill_brewer(name = 'Animal abuse\nnotifications', palette = 8)
 #'     
-scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02, st.dist = 0.02, st.bottom = TRUE, st.size = 5, st.color = "black", box.fill = c("black", "white"), box.color = "black", dd2km = NULL, model, x.min, x.max, y.min, y.max, anchor = NULL, facet.var = NULL, facet.lev = NULL){
+scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02, st.dist = 0.02, dist_unit = "km", st.bottom = TRUE, st.size = 5, st.color = "black", box.fill = c("black", "white"), box.color = "black", dd2km = NULL, model, x.min, x.max, y.min, y.max, anchor = NULL, facet.var = NULL, facet.lev = NULL){
     if (is.null(data)) {
         if (is.null(x.min) | is.null(x.max) |
             is.null(y.min) | is.null(y.max) ) {
@@ -115,6 +116,9 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
     height <- y + (ymax - ymin) * height
     
     if (dd2km) {
+        if (dist_unit == "m") {
+            dist <- dist / 1e3
+        }
         break1 <- maptools::gcDestination(lon = x, lat = y,
                                           bearing = 90 * direction,
                                           dist = dist, dist.units = 'km',
@@ -159,7 +163,12 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
             
         }
     }
-    legend <- cbind(text = c(0, dist, dist * 2), row.names = NULL)
+    if (dist_unit == "km") {
+        legend <- cbind(text = c(0, dist, dist * 2), row.names = NULL)
+    }
+    if (dist_unit == "m") {
+        legend <- cbind(text = c(0, dist * 1e3, dist * 2e3), row.names = NULL)
+    }
     
     gg.box1 <- geom_polygon(data = box1, aes(x, y),
                             fill = utils::tail(box.fill, 1),
@@ -170,8 +179,14 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
     if (location == 'bottomright' | location == 'topright') {
         x.st.pos <- rev(x.st.pos)
     }
-    legend2 <- cbind(data[1:3, ], x = unname(x.st.pos), y = unname(st.dist),
-                     label = paste0(legend[, "text"], c("", "", "km")))
+    if (dist_unit == "km") {
+        legend2 <- cbind(data[1:3, ], x = unname(x.st.pos), y = unname(st.dist),
+                         label = paste0(legend[, "text"], c("", "", "km")))
+    }
+    if (dist_unit == "m") {
+        legend2 <- cbind(data[1:3, ], x = unname(x.st.pos), y = unname(st.dist),
+                         label = paste0(legend[, "text"], c("", "", "m")))
+    }
     if (!is.null(facet.var) & !is.null(facet.lev)) {
         for (i in 1:length(facet.var)){
             if (any(class(data) == "sf")) {

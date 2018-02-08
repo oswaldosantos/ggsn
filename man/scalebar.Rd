@@ -5,10 +5,10 @@
 \title{Scale bar}
 \usage{
 scalebar(data = NULL, location = "bottomright", dist, height = 0.02,
-  st.dist = 0.02, st.bottom = TRUE, st.size = 5, st.color = "black",
-  box.fill = c("black", "white"), box.color = "black", dd2km = NULL,
-  model, x.min, x.max, y.min, y.max, anchor = NULL, facet.var = NULL,
-  facet.lev = NULL)
+  st.dist = 0.02, dist_unit = "km", st.bottom = TRUE, st.size = 5,
+  st.color = "black", box.fill = c("black", "white"), box.color = "black",
+  dd2km = NULL, model, x.min, x.max, y.min, y.max, anchor = NULL,
+  facet.var = NULL, facet.lev = NULL)
 }
 \arguments{
 \item{data}{the same \code{\link{data.frame}} passed to \code{\link{ggplot}} to plot the map.}
@@ -20,6 +20,8 @@ scalebar(data = NULL, location = "bottomright", dist, height = 0.02,
 \item{height}{number between 0 and 1 to indicate the height of the scale bar, as a proportion of the y axis.}
 
 \item{st.dist}{number between 0 and 1 to indicate the distance between the scale bar and the scale bar text, as a proportion of the y axis.}
+
+\item{dist_unit}{when \code{dist} is used, it defines the unit of measurement.  Possbile values: "km" and "m".}
 
 \item{st.bottom}{logical. If TRUE (default) the scale bar text is displayed at the bottom of the scale bar, if FALSE, it is displayed at the top.}
 
