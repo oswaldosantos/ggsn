@@ -41,7 +41,7 @@
 #'     scalebar(map2, dd2km = FALSE, dist = 5, model = 'WGS84') +
 #'     scale_fill_brewer(name = 'Animal abuse\nnotifications', palette = 8)
 #'     
-scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02, st.dist = 0.02, dist_unit = "km", st.bottom = TRUE, st.size = 5, st.color = "black", box.fill = c("black", "white"), box.color = "black", dd2km = NULL, model, x.min, x.max, y.min, y.max, anchor = NULL, facet.var = NULL, facet.lev = NULL){
+scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02, st.dist = 0.02, dist_unit = "km", st.bottom = TRUE, st.size = 5, st.color = "black", box.fill = c("black", "white"), box.color = "black", dd2km = NULL, model, x.min, x.max, y.min, y.max, anchor = NULL, facet.var = NULL, facet.lev = NULL, ...){
     if (is.null(data)) {
         if (is.null(x.min) | is.null(x.max) |
             is.null(y.min) | is.null(y.max) ) {
@@ -200,10 +200,10 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
     }
     if (!is.null(facet.var) & !is.null(facet.lev)) {
         gg.legend <- geom_text(data = legend2, aes(x, y, label = label),
-                               size = st.size, color = st.color)
+                               size = st.size, color = st.color, ...)
     } else {
         gg.legend <- geom_text(data = legend2, aes(x, y, label = label),
-                               size = st.size, color = st.color)
+                               size = st.size, color = st.color, ...)
     }
     return(list(gg.box1, gg.box2, gg.legend))
 }
