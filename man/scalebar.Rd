@@ -8,7 +8,7 @@ scalebar(data = NULL, location = "bottomright", dist, height = 0.02,
   st.dist = 0.02, dist_unit = "km", st.bottom = TRUE, st.size = 5,
   st.color = "black", box.fill = c("black", "white"), box.color = "black",
   dd2km = NULL, model, x.min, x.max, y.min, y.max, anchor = NULL,
-  facet.var = NULL, facet.lev = NULL)
+  facet.var = NULL, facet.lev = NULL, ...)
 }
 \arguments{
 \item{data}{the same \code{\link{data.frame}} passed to \code{\link{ggplot}} to plot the map.}
@@ -50,6 +50,8 @@ scalebar(data = NULL, location = "bottomright", dist, height = 0.02,
 \item{facet.var}{if faceting, character vector of variable names used for faceting. This is useful for placing the scalebar only in one facet and must be used together with \code{facet.lev}.}
 
 \item{facet.lev}{character vector with the name of one level for each variable in \code{facet.var}. The scale bar will be drawn only in the \code{facet.lev} facet.}
+
+\item{...}{further arguments passed to \link{\code{geom_text}}.}
 }
 \description{
 Adds a scale bar to maps created with ggplot or ggmap.

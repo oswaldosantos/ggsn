@@ -11,8 +11,8 @@ North symbols and scale bars for maps created with 'ggplot' or 'ggmap'. Adds nor
 \tabular{ll}{
 Package: \tab ggsn\cr
 Type: \tab Package\cr
-Version: \tab 0.4.8\cr
-Date: \tab 2016-02-08\cr
+Version: \tab 0.4.9\cr
+Date: \tab 2016-04-19\cr
 Depends: \tab R (>= 3.4.2), ggplot2\cr
 Imports: \tab grid, ggmap, sf, png, maptools\cr
 Suggests: \tab rgdal, broom\cr
