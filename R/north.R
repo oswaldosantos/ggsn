@@ -105,7 +105,7 @@ north <- function(data = NULL, location = 'topright', scale = 0.1, symbol = 1, x
     symbol <- png::readPNG(paste0(system.file('symbols', package = 'ggsn'),
                              '/', symbol, '.png'))
     symbol <- grid::rasterGrob(symbol, interpolate = TRUE)
-    return(ggmap::inset(symbol,
-                 xmin = x.min, xmax = x.max,
-                 ymin = y.min, ymax = y.max))
+    return(annotation_custom(symbol, xmin = x.min, xmax = x.max,
+                             ymin = y.min, 
+                             ymax = y.max))
 }
