@@ -23,8 +23,8 @@ LazyLoad: yes
 URL: https://github.com/oswaldosantos/ggsn
 Authors@R: c(person(given='Oswaldo', family='Santos Baquero',
     email='baquero@usp.br', role=c("aut", "cre")))
-Version: 0.4.9
-Date: 2018-04-19
+Version: 0.4.10
+Date: 2018-04-23
 NeedsCompilation: no
 Author: Oswaldo Santos Baquero [aut, cre]
 Maintainer: Oswaldo Santos Baquero <baquero@usp.br>
