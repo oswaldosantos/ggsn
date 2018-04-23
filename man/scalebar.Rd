@@ -51,7 +51,7 @@ scalebar(data = NULL, location = "bottomright", dist, height = 0.02,
 
 \item{facet.lev}{character vector with the name of one level for each variable in \code{facet.var}. The scale bar will be drawn only in the \code{facet.lev} facet.}
 
-\item{...}{further arguments passed to \link{\code{geom_text}}.}
+\item{...}{further arguments passed to \code{\link{geom_text}}.}
 }
 \description{
 Adds a scale bar to maps created with ggplot or ggmap.

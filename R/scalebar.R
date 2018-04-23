@@ -20,7 +20,7 @@
 #' @param y.max if \code{data} is not defined, number with the maximum y coordinate. Useful for ggmap.
 #' @param facet.var if faceting, character vector of variable names used for faceting. This is useful for placing the scalebar only in one facet and must be used together with \code{facet.lev}.
 #' @param facet.lev character vector with the name of one level for each variable in \code{facet.var}. The scale bar will be drawn only in the \code{facet.lev} facet.
-#' @param ... further arguments passed to \link{\code{geom_text}}.
+#' @param ... further arguments passed to \code{\link{geom_text}}.
 #' @export
 #' @examples
 #' library(sf)
