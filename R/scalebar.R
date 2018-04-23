@@ -145,7 +145,7 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
     if (!is.null(facet.var) & !is.null(facet.lev)) {
         for (i in 1:length(facet.var)){
             if (any(class(data) == "sf")) {
-                if (!is.factor(data[ , facet.var[i]])) {
+                if (!is.factor(data[ , facet.var[i]][[1]])) {
                     data[ , facet.var[i]] <- factor(data[ , facet.var[i]][[1]])
                 }
                 box1[ , facet.var[i]] <- factor(facet.lev[i],
@@ -198,13 +198,20 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
                                                    levels(data[ , facet.var[i]]))
             }
         }
+    } else if (!is.null(facet.var) & is.null(facet.lev)) {
+        facet.levels0 <- unique(as.data.frame(data)[, facet.var])
+        facet.levels <- unlist(unique(as.data.frame(data)[, facet.var]))
+        legend2 <- do.call("rbind", replicate(length(facet.levels),
+                                              legend2, simplify = FALSE))
+        if (length(facet.var) > 1) {
+            facet.levels0 <- expand.grid(facet.levels0)
+            legend2[, facet.var] <-
+                facet.levels0[rep(row.names(facet.levels0), each = 3), ]
+        } else {
+            legend2[, facet.var] <- rep(facet.levels0, each = 3)
+        }
     }
-    if (!is.null(facet.var) & !is.null(facet.lev)) {
-        gg.legend <- geom_text(data = legend2, aes(x, y, label = label),
-                               size = st.size, color = st.color, ...)
-    } else {
-        gg.legend <- geom_text(data = legend2, aes(x, y, label = label),
-                               size = st.size, color = st.color, ...)
-    }
+    gg.legend <- geom_text(data = legend2, aes(x, y, label = label),
+                           size = st.size, color = st.color, ...)
     return(list(gg.box1, gg.box2, gg.legend))
 }
