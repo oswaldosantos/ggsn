@@ -13,7 +13,7 @@
 #' @param st.color scale bar text color. Default is black.
 #' @param box.fill box fill color. If vector of two colors, the two boxes are filled with a different color. Defaults to black and white.
 #' @param box.color box border color. If vector of two colors, the borders of the two boxes are colored differently. Defaults to black.
-#' @param border.size number to define the border width.
+#' @param border.size number to define the border size.
 #' @param anchor named \code{\link{vector}} with coordinates to control the symbol position. For \code{location = "topright"}, \code{anchor} defines the coordinates of the symbol's topright corner and so forth. The x coordinate must be named as x and the y coordinate as y.
 #' @param x.min if \code{data} is not defined, number with the minimum x coordinate. Useful for ggmap.
 #' @param x.max if \code{data} is not defined, number with the maximum x coordinate. Useful for ggmap.
