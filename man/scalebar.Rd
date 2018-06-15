@@ -4,11 +4,12 @@
 \alias{scalebar}
 \title{Scale bar}
 \usage{
-scalebar(data = NULL, location = "bottomright", dist, height = 0.02,
-  st.dist = 0.02, dist_unit = "km", st.bottom = TRUE, st.size = 5,
-  st.color = "black", box.fill = c("black", "white"), box.color = "black",
-  dd2km = NULL, model, x.min, x.max, y.min, y.max, anchor = NULL,
-  facet.var = NULL, facet.lev = NULL, ...)
+scalebar(data = NULL, location = "bottomright", dist = NULL,
+  dd2km = NULL, model = NULL, height = 0.02, st.dist = 0.02,
+  dist_unit = "km", st.bottom = TRUE, st.size = 5, st.color = "black",
+  box.fill = c("black", "white"), box.color = "black", border.size = 1,
+  x.min = NULL, x.max = NULL, y.min = NULL, y.max = NULL,
+  anchor = NULL, facet.var = NULL, facet.lev = NULL, ...)
 }
 \arguments{
 \item{data}{the same \code{\link{data.frame}} passed to \code{\link{ggplot}} to plot the map.}
@@ -16,6 +17,10 @@ scalebar(data = NULL, location = "bottomright", dist, height = 0.02,
 \item{location}{string indicating the symbol's location in the plot. Possible options: "topright" (default), "bottomright", "bottomleft" and "topleft".}
 
 \item{dist}{distance in km to represent with each segment of the scale bar.}
+
+\item{dd2km}{logical. If TRUE, it is assumed that coordinates are in decimal degrees. If FALSE, it assumed they are in meters.}
+
+\item{model}{choice of ellipsoid model ("WGS84", "GRS80", "Airy", "International", "Clarke", "GRS67") Used when dd2km is TRUE.}
 
 \item{height}{number between 0 and 1 to indicate the height of the scale bar, as a proportion of the y axis.}
 
@@ -33,9 +38,7 @@ scalebar(data = NULL, location = "bottomright", dist, height = 0.02,
 
 \item{box.color}{box border color. If vector of two colors, the borders of the two boxes are colored differently. Defaults to black.}
 
-\item{dd2km}{logical. If TRUE, it is assumed that coordinates are in decimal degrees. If FALSE, it assumed they are in meters.}
-
-\item{model}{choice of ellipsoid model ("WGS84", "GRS80", "Airy", "International", "Clarke", "GRS67") Used when dd2km is TRUE.}
+\item{border.size}{number to define the border size.}
 
 \item{x.min}{if \code{data} is not defined, number with the minimum x coordinate. Useful for ggmap.}
 
