@@ -3,6 +3,8 @@
 #' @param data the same \code{\link{data.frame}} passed to \code{\link{ggplot}} to plot the map.
 #' @param location string indicating the symbol's location in the plot. Possible options: "topright" (default), "bottomright", "bottomleft" and "topleft".
 #' @param dist distance in km to represent with each segment of the scale bar.
+#' @param dd2km logical. If TRUE, it is assumed that coordinates are in decimal degrees. If FALSE, it assumed they are in meters.
+#' @param model choice of ellipsoid model ("WGS84", "GRS80", "Airy", "International", "Clarke", "GRS67") Used when dd2km is TRUE.
 #' @param dist_unit when \code{dist} is used, it defines the unit of measurement.  Possbile values: "km" and "m".
 #' @param height number between 0 and 1 to indicate the height of the scale bar, as a proportion of the y axis.
 #' @param st.dist number between 0 and 1 to indicate the distance between the scale bar and the scale bar text, as a proportion of the y axis.
@@ -11,8 +13,7 @@
 #' @param st.color scale bar text color. Default is black.
 #' @param box.fill box fill color. If vector of two colors, the two boxes are filled with a different color. Defaults to black and white.
 #' @param box.color box border color. If vector of two colors, the borders of the two boxes are colored differently. Defaults to black.
-#' @param dd2km logical. If TRUE, it is assumed that coordinates are in decimal degrees. If FALSE, it assumed they are in meters.
-#' @param model choice of ellipsoid model ("WGS84", "GRS80", "Airy", "International", "Clarke", "GRS67") Used when dd2km is TRUE.
+#' @param border.size number to define the border width.
 #' @param anchor named \code{\link{vector}} with coordinates to control the symbol position. For \code{location = "topright"}, \code{anchor} defines the coordinates of the symbol's topright corner and so forth. The x coordinate must be named as x and the y coordinate as y.
 #' @param x.min if \code{data} is not defined, number with the minimum x coordinate. Useful for ggmap.
 #' @param x.max if \code{data} is not defined, number with the maximum x coordinate. Useful for ggmap.
@@ -42,7 +43,7 @@
 #'     scalebar(map2, dd2km = FALSE, dist = 5, model = 'WGS84') +
 #'     scale_fill_brewer(name = 'Animal abuse\nnotifications', palette = 8)
 #'     
-scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02, st.dist = 0.02, dist_unit = "km", st.bottom = TRUE, st.size = 5, st.color = "black", box.fill = c("black", "white"), box.color = "black", dd2km = NULL, model, x.min, x.max, y.min, y.max, anchor = NULL, facet.var = NULL, facet.lev = NULL, ...){
+scalebar <- function(data = NULL, location = "bottomright", dist = NULL, dd2km = NULL, model = NULL, height = 0.02, st.dist = 0.02, dist_unit = "km", st.bottom = TRUE, st.size = 5, st.color = "black", box.fill = c("black", "white"), box.color = "black", border.size = 1, x.min = NULL, x.max = NULL, y.min = NULL, y.max = NULL, anchor = NULL, facet.var = NULL, facet.lev = NULL, ...){
     if (is.null(data)) {
         if (is.null(x.min) | is.null(x.max) |
             is.null(y.min) | is.null(y.max) ) {
@@ -173,9 +174,11 @@ scalebar <- function(data = NULL, location = "bottomright", dist, height = 0.02,
     
     gg.box1 <- geom_polygon(data = box1, aes(x, y),
                             fill = utils::tail(box.fill, 1),
-                            color = utils::tail(box.color, 1))
+                            color = utils::tail(box.color, 1),
+                            size = border.size)
     gg.box2 <- geom_polygon(data = box2, aes(x, y), fill = box.fill[1],
-                            color = box.color[1])
+                            color = box.color[1],
+                            size = border.size)
     x.st.pos <- c(box1[c(1, 3), 1], box2[3, 1])
     if (location == 'bottomright' | location == 'topright') {
         x.st.pos <- rev(x.st.pos)
