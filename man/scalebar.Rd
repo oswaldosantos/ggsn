@@ -2,7 +2,7 @@
 % Please edit documentation in R/scalebar.R
 \name{scalebar}
 \alias{scalebar}
-\title{Scale bar}
+\title{scalebar}
 \usage{
 scalebar(data = NULL, location = "bottomright", dist = NULL,
   dd2km = NULL, model = NULL, height = 0.02, st.dist = 0.02,

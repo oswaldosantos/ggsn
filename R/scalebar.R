@@ -1,4 +1,4 @@
-#' Scale bar
+#' scalebar
 #' @description Adds a scale bar to maps created with ggplot or ggmap.
 #' @param data the same \code{\link{data.frame}} passed to \code{\link{ggplot}} to plot the map.
 #' @param location string indicating the symbol's location in the plot. Possible options: "topright" (default), "bottomright", "bottomleft" and "topleft".

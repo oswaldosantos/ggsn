@@ -3,9 +3,9 @@
 #' \tabular{ll}{
 #' Package: \tab ggsn\cr
 #' Type: \tab Package\cr
-#' Version: \tab 0.4.11\cr
-#' Date: \tab 2016-06-15\cr
-#' Depends: \tab R (>= 3.4.2), ggplot2\cr
+#' Version: \tab 0.4.12\cr
+#' Date: \tab 2016-11-12\cr
+#' Depends: \tab R (>= 3.4), ggplot2\cr
 #' Imports: \tab grid, ggmap, sf, png, maptools\cr
 #' Suggests: \tab rgdal, broom\cr
 #' License: \tab GPL (>= 2)\cr
