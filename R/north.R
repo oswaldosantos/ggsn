@@ -14,26 +14,12 @@
 #' @export
 #' @examples
 #' library(sf)
-#' dsn <- system.file('extdata', package = 'ggsn')
-#' map <- st_read(dsn, 'sp')
-#' 
-#' # If "map" is a "sp" object, convert it to "sf" with map <- st_as_sf(map).
-#' 
-#' ggplot(map, aes(fill = nots)) +
+#' data(domestic_violence)
+#' ggplot(domestic_violence, aes(fill = Scaled)) +
 #'     geom_sf() +
-#'     north(map) +
-#'     scale_fill_brewer(name = 'Animal abuse\nnotifications', palette = 8)
-#' 
-#' ggplot(map, aes(fill = nots)) +
-#'     geom_sf() +
-#'     north(map, location = 'bottomleft', symbol = 8) +
-#'     scale_fill_brewer(name = 'Animal abuse\nnotifications', palette = 8)
-#' 
-#' ggplot(map, aes(fill = nots)) +
-#'     geom_sf() +
-#'     north(data = map, location = 'bottomright', scale = 0.2, symbol = 14,
-#'           anchor = c(x = -46.4, y = -23.9)) +
-#'     scale_fill_brewer(name = 'Animal abuse\nnotifications', palette = 8)
+#'     north(domestic_violence, location = "bottomright", symbol = 15) +
+#'     scale_fill_continuous(low = "#fff7ec", high = "#7F0000")
+#'
 north <- function(data = NULL, location = 'topright', scale = 0.1, symbol = 1, x.min, x.max, y.min, y.max, anchor = NULL) {
     if (is.null(data)) {
         if (is.null(x.min) | is.null(x.max) |

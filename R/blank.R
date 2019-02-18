@@ -3,17 +3,12 @@
 #' @export
 #' @examples
 #' library(sf)
-#' dsn <- system.file('extdata', package = 'ggsn')
-#' map <- st_read(dsn, 'sp')
-#' 
-#' # If "map" is a "sp" object, convert it to "sf" with map <- st_as_sf(map).
-#'
-#' # Map in geographic coordinates
-#' ggplot(map, aes(fill = nots)) +
+#' data(domestic_violence)
+#' ggplot(domestic_violence, aes(fill = Scaled)) +
 #'     geom_sf() +
-#'     scalebar(map, , dist = 5, dd2km = TRUE, model = 'WGS84') +
 #'     blank() +
-#'     scale_fill_brewer(name = 'Animal abuse\nnotifications', palette = 8)
+#'     scale_fill_continuous(low = "#fff7ec", high = "#7F0000")
+
 #'     
 blank <- function() {
     return(

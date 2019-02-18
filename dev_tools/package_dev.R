@@ -18,5 +18,4 @@ run_examples()
 #   DESCRIPTION
 #   capm-package
 #   NEWS
-#   CITATION
 #   Web page

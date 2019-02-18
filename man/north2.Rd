@@ -25,14 +25,11 @@ North symbols are included in the plot with the \code{\link{annotation_custom}} 
 }
 \examples{
 library(sf)
-dsn <- system.file('extdata', package = 'ggsn')
-map <- st_read(dsn, 'sp')
-
-# If "map" is a "sp" object, convert it to "sf" with map <- st_as_sf(map).
-
-map2 <- ggplot(map, aes(fill = nots)) +
+data(domestic_violence)
+map <- ggplot(domestic_violence, aes(fill = Scaled)) +
     geom_sf() +
-    scale_fill_brewer(name = 'Animal abuse\\nnotifications', palette = 8)
-north2(map2, .5, .5)
+    scale_fill_continuous(low = "#fff7ec", high = "#7F0000") +
+    blank()
+north2(map, .5, .5, symbol = 10)
 
 }
