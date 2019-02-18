@@ -1,3 +1,10 @@
+ggsn 0.5.0
+==========
+
+* scale bar: support for nautical miles and statue miles. New argument: "transform" replaces the now deprecated "dd2km".
+
+* Updated examples.
+
 ggsn 0.4.12
 ==========
 

@@ -16,16 +16,18 @@ Imports:
 Suggests:
     rgdal,
     broom
-Description: Adds north symbols (18 options) and scale bars in kilometers to
-    maps in geographic or metric coordinates created with 'ggplot2' or 'ggmap'.
+Description: Adds north symbols (18 options) and scale bars in kilometers,
+    meters, nautical miles, or statue miles, to maps in geographic
+    or metric coordinates created with 'ggplot2' or 'ggmap'.
 License: GPL (>= 2)
 LazyLoad: yes
 URL: https://github.com/oswaldosantos/ggsn
 Authors@R: c(person(given='Oswaldo', family='Santos Baquero',
     email='baquero@usp.br', role=c("aut", "cre")))
-Version: 0.4.12
-Date: 2018-11-12
+Version: 0.5.0
+Date: 2019-02-18
 NeedsCompilation: no
 Author: Oswaldo Santos Baquero [aut, cre]
 Maintainer: Oswaldo Santos Baquero <baquero@usp.br>
-RoxygenNote: 6.0.1
+Encoding: UTF-8
+RoxygenNote: 6.1.1
