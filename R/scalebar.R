@@ -1,49 +1,51 @@
 #' scalebar
 #' @description Adds a scale bar to maps created with ggplot or ggmap.
 #' @param data the same \code{\link{data.frame}} passed to \code{\link{ggplot}} to plot the map.
-#' @param location string indicating the symbol's location in the plot. Possible options: "topright" (default), "bottomright", "bottomleft" and "topleft".
-#' @param dist distance in km to represent with each segment of the scale bar.
-#' @param dd2km logical. If TRUE, it is assumed that coordinates are in decimal degrees. If FALSE, it assumed they are in meters.
-#' @param model choice of ellipsoid model ("WGS84", "GRS80", "Airy", "International", "Clarke", "GRS67") Used when dd2km is TRUE.
-#' @param dist_unit when \code{dist} is used, it defines the unit of measurement.  Possbile values: "km" and "m".
-#' @param height number between 0 and 1 to indicate the height of the scale bar, as a proportion of the y axis.
-#' @param st.dist number between 0 and 1 to indicate the distance between the scale bar and the scale bar text, as a proportion of the y axis.
-#' @param st.bottom logical. If TRUE (default) the scale bar text is displayed at the bottom of the scale bar, if FALSE, it is displayed at the top.
-#' @param st.size number to indicate the scale bar text size. It is passed to the size argument of \code{\link{annotate}} function.
-#' @param st.color scale bar text color. Default is black.
-#' @param box.fill box fill color. If vector of two colors, the two boxes are filled with a different color. Defaults to black and white.
-#' @param box.color box border color. If vector of two colors, the borders of the two boxes are colored differently. Defaults to black.
+#' @param location string indicating the scale bar's location in the plot. Possible options: "topright" (default), "bottomright", "bottomleft" and "topleft".
+#' @param dist distance to represent with each segment of the scale bar.
+#' @param dist_unit unit of measurement for \code{dist}. Possbile values: "km" (kilometers) and "m" (meters), "nm" (nautical miles) and "mi" (statue miles).
+#' @param transform If TRUE, it is assumed that coordinates are in decimal degrees. If FALSE, it assumed that they are in meters.
+#' @param dd2km deprecated. Use transform instead.
+#' @param model choice of ellipsoid model ("WGS84", "GRS80", "Airy", "International", "Clarke", or "GRS67") Used when transform is TRUE.
+#' @param height number between 0 and 1 to indicate the scale bar's height, as a proportion of the y axis.
+#' @param st.dist number between 0 and 1 to indicate the distance between the scale bar and the scale bar's text, as a proportion of the y axis.
+#' @param st.bottom logical. If TRUE (default) the scale bar's text is displayed at the bottom of the scale bar, if FALSE, it is displayed at the top.
+#' @param st.size number to indicate the scale bar's size. It is passed to \code{size} in \code{\link{annotate}} function.
+#' @param st.color color of the scale bar's text. Default is black.
+#' @param box.fill fill color of the box. If vector of two colors, the two boxes are filled with a different color. Defaults to black and white.
+#' @param box.color color of the box's border. If vector of two colors, the borders of the two boxes are colored differently. Defaults to black.
 #' @param border.size number to define the border size.
-#' @param anchor named \code{\link{vector}} with coordinates to control the symbol position. For \code{location = "topright"}, \code{anchor} defines the coordinates of the symbol's topright corner and so forth. The x coordinate must be named as x and the y coordinate as y.
+#' @param anchor named \code{\link{vector}} with coordinates to control the symbol's position. For \code{location = "topright"}, \code{anchor} defines the coordinates of the symbol's topright corner and so forth. The x coordinate must be named as x and the y coordinate as y.
 #' @param x.min if \code{data} is not defined, number with the minimum x coordinate. Useful for ggmap.
 #' @param x.max if \code{data} is not defined, number with the maximum x coordinate. Useful for ggmap.
 #' @param y.min if \code{data} is not defined, number with the minimum y coordinate. Useful for ggmap.
 #' @param y.max if \code{data} is not defined, number with the maximum y coordinate. Useful for ggmap.
-#' @param facet.var if faceting, character vector of variable names used for faceting. This is useful for placing the scalebar only in one facet and must be used together with \code{facet.lev}.
+#' @param facet.var if faceting, character vector of variable names used for faceting. This is useful for placing the scalebar in only one facet and must be used together with \code{facet.lev}.
 #' @param facet.lev character vector with the name of one level for each variable in \code{facet.var}. The scale bar will be drawn only in the \code{facet.lev} facet.
 #' @param ... further arguments passed to \code{\link{geom_text}}.
 #' @export
 #' @examples
 #' library(sf)
-#' dsn <- system.file('extdata', package = 'ggsn')
-#' map <- st_read(dsn, 'sp')
-#' 
-#' # If "map" is a "sp" object, convert it to "sf" with map <- st_as_sf(map).
+#' data(domestic_violence)
 #'
 #' # Map in geographic coordinates
-#' ggplot(map, aes(fill = nots)) +
+#' ggplot(domestic_violence, aes(fill = Scaled)) +
 #'     geom_sf() +
-#'     scalebar(map, , dist = 5, dd2km = TRUE, model = 'WGS84') +
-#'     scale_fill_brewer(name = 'Animal abuse\nnotifications', palette = 8)
-#'
+#'     scalebar(domestic_violence, dist = 4, dist_unit = "km",
+#'              transform = TRUE, model = "WGS84") +
+#'     blank() +
+#'     scale_fill_continuous(low = "#fff7ec", high = "#7F0000")
+#' 
 #' # Map in projected coordinates
-#' map2 <- st_transform(map, 31983)
-#' ggplot(map2, aes(fill = nots)) +
+#' domestic_violence2 <- st_transform(domestic_violence, 31983)
+#' ggplot(domestic_violence2, aes(fill = Scaled)) +
 #'     geom_sf() +
-#'     scalebar(map2, dd2km = FALSE, dist = 5, model = 'WGS84') +
-#'     scale_fill_brewer(name = 'Animal abuse\nnotifications', palette = 8)
-#'     
-scalebar <- function(data = NULL, location = "bottomright", dist = NULL, dd2km = NULL, model = NULL, height = 0.02, st.dist = 0.02, dist_unit = "km", st.bottom = TRUE, st.size = 5, st.color = "black", box.fill = c("black", "white"), box.color = "black", border.size = 1, x.min = NULL, x.max = NULL, y.min = NULL, y.max = NULL, anchor = NULL, facet.var = NULL, facet.lev = NULL, ...){
+#'     scalebar(domestic_violence2, dist = 4, dist_unit = "km",
+#'              transform = FALSE, model = "WGS84") +
+#'     blank() +
+#'     scale_fill_continuous(low = "#fff7ec", high = "#7F0000")
+#'
+scalebar <- function(data = NULL, location = "bottomright", dist = NULL, dist_unit = NULL, transform = NULL, dd2km = NULL, model = NULL, height = 0.02, st.dist = 0.02, st.bottom = TRUE, st.size = 5, st.color = "black", box.fill = c("black", "white"), box.color = "black", border.size = 1, x.min = NULL, x.max = NULL, y.min = NULL, y.max = NULL, anchor = NULL, facet.var = NULL, facet.lev = NULL, ...){
     if (is.null(data)) {
         if (is.null(x.min) | is.null(x.max) |
             is.null(y.min) | is.null(y.max) ) {
@@ -51,8 +53,8 @@ scalebar <- function(data = NULL, location = "bottomright", dist = NULL, dd2km =
         }
         data <- data.frame(long = c(x.min, x.max), lat = c(y.min, y.max))
     }
-    if (is.null(dd2km)) {
-        stop("dd2km should be logical.")
+    if (is.null(transform)) {
+     stop("transform should be logical.")
     }
     if (any(class(data) %in% "sf")) {
         xmin <- sf::st_bbox(data)["xmin"]
@@ -117,25 +119,55 @@ scalebar <- function(data = NULL, location = "bottomright", dist = NULL, dd2km =
     }
     height <- y + (ymax - ymin) * height
     
-    if (dd2km) {
-        if (dist_unit == "m") {
-            dist <- dist / 1e3
+    if (dist_unit == "m") {
+        dist <- dist / 1e3
+        dist_unit0 <- "m"
+        dist_unit <- "km"
+    }
+    if (!is.null(dd2km)) {
+        if (dd2km) {
+            transform <- TRUE
         }
+        cat("dd2km is deprecated. Use ggsn::transform instead.")
+    }
+    if (transform) {
         break1 <- maptools::gcDestination(lon = x, lat = y,
                                           bearing = 90 * direction,
-                                          dist = dist, dist.units = 'km',
+                                          dist = dist, dist.units = dist_unit,
                                           model = model)[1, 1]
         break2 <- maptools::gcDestination(lon = x, lat = y,
                                           bearing = 90 * direction,
-                                          dist = dist*2, dist.units = 'km',
+                                          dist = dist*2, dist.units = dist_unit,
                                           model = model)[1, 1]
     } else {
         if (location == 'bottomleft' | location == 'topleft') {
-            break1 <- x + dist * 1e3
-            break2 <- x + dist * 2e3
+            if (exists("dist_unit0") | (!exists("dist_unit0") & dist_unit == "km")) {
+                break1 <- x + dist * 1e3
+                break2 <- x + dist * 2e3
+            } else if (dist_unit == "nm") {
+                break1 <- x + dist * 1852
+                break2 <- x + dist * 1852 * 2
+            } else if (dist_unit == "mi") {
+                break1 <- x + dist * 1609.34
+                break2 <- x + dist * 1609.34 * 2
+            } else {
+                break1 <- x + dist
+                break2 <- x + dist
+            }
         } else {
-            break1 <- x - dist * 1e3
-            break2 <- x - dist * 2e3
+            if (exists("dist_unit0") | (!exists("dist_unit0") & dist_unit == "km")) {
+                break1 <- x - dist * 1e3
+                break2 <- x - dist * 2e3
+            } else if (dist_unit == "nm") {
+                break1 <- x - dist * 1852
+                break2 <- x - dist * 1852 * 2
+            } else if (dist_unit == "mi") {
+                break1 <- x - dist * 1609.34
+                break2 <- x - dist * 1609.34 * 2
+            } else {
+                break1 <- x - dist
+                break2 <- x - dist
+            }
         }
         
     }
@@ -165,14 +197,12 @@ scalebar <- function(data = NULL, location = "bottomright", dist = NULL, dd2km =
             
         }
     }
-    if (dist_unit == "km") {
+    if (exists("dist_unit0")) {
+        legend <- cbind(text = c(0, dist * 1e3, dist * 2e3), row.names = NULL)
+    } else {
         legend <- cbind(text = c(0, dist, dist * 2), row.names = NULL)
     }
-    if (dist_unit == "m") {
-        legend <- cbind(text = c(0, dist * 1e3, dist * 2e3), row.names = NULL)
-    }
-    
-    gg.box1 <- geom_polygon(data = box1, aes(x, y),
+        gg.box1 <- geom_polygon(data = box1, aes(x, y),
                             fill = utils::tail(box.fill, 1),
                             color = utils::tail(box.color, 1),
                             size = border.size)
@@ -183,13 +213,13 @@ scalebar <- function(data = NULL, location = "bottomright", dist = NULL, dd2km =
     if (location == 'bottomright' | location == 'topright') {
         x.st.pos <- rev(x.st.pos)
     }
-    if (dist_unit == "km") {
-        legend2 <- cbind(data[1:3, ], x = unname(x.st.pos), y = unname(st.dist),
-                         label = paste0(legend[, "text"], c("", "", "km")))
-    }
-    if (dist_unit == "m") {
+    label <- NULL
+    if (exists("dist_unit0")) {
         legend2 <- cbind(data[1:3, ], x = unname(x.st.pos), y = unname(st.dist),
                          label = paste0(legend[, "text"], c("", "", "m")))
+    } else {
+        legend2 <- cbind(data[1:3, ], x = unname(x.st.pos), y = unname(st.dist),
+                         label = paste0(legend[, "text"], c("", "", dist_unit)))
     }
     if (!is.null(facet.var) & !is.null(facet.lev)) {
         for (i in 1:length(facet.var)){

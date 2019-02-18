@@ -5,38 +5,41 @@
 \title{scalebar}
 \usage{
 scalebar(data = NULL, location = "bottomright", dist = NULL,
-  dd2km = NULL, model = NULL, height = 0.02, st.dist = 0.02,
-  dist_unit = "km", st.bottom = TRUE, st.size = 5, st.color = "black",
-  box.fill = c("black", "white"), box.color = "black", border.size = 1,
-  x.min = NULL, x.max = NULL, y.min = NULL, y.max = NULL,
-  anchor = NULL, facet.var = NULL, facet.lev = NULL, ...)
+  dist_unit = NULL, transform = NULL, dd2km = NULL, model = NULL,
+  height = 0.02, st.dist = 0.02, st.bottom = TRUE, st.size = 5,
+  st.color = "black", box.fill = c("black", "white"),
+  box.color = "black", border.size = 1, x.min = NULL, x.max = NULL,
+  y.min = NULL, y.max = NULL, anchor = NULL, facet.var = NULL,
+  facet.lev = NULL, ...)
 }
 \arguments{
 \item{data}{the same \code{\link{data.frame}} passed to \code{\link{ggplot}} to plot the map.}
 
-\item{location}{string indicating the symbol's location in the plot. Possible options: "topright" (default), "bottomright", "bottomleft" and "topleft".}
+\item{location}{string indicating the scale bar's location in the plot. Possible options: "topright" (default), "bottomright", "bottomleft" and "topleft".}
 
-\item{dist}{distance in km to represent with each segment of the scale bar.}
+\item{dist}{distance to represent with each segment of the scale bar.}
 
-\item{dd2km}{logical. If TRUE, it is assumed that coordinates are in decimal degrees. If FALSE, it assumed they are in meters.}
+\item{dist_unit}{unit of measurement for \code{dist}. Possbile values: "km" (kilometers) and "m" (meters), "nm" (nautical miles) and "mi" (statue miles).}
 
-\item{model}{choice of ellipsoid model ("WGS84", "GRS80", "Airy", "International", "Clarke", "GRS67") Used when dd2km is TRUE.}
+\item{transform}{If TRUE, it is assumed that coordinates are in decimal degrees. If FALSE, it assumed that they are in meters.}
 
-\item{height}{number between 0 and 1 to indicate the height of the scale bar, as a proportion of the y axis.}
+\item{dd2km}{deprecated. Use transform instead.}
 
-\item{st.dist}{number between 0 and 1 to indicate the distance between the scale bar and the scale bar text, as a proportion of the y axis.}
+\item{model}{choice of ellipsoid model ("WGS84", "GRS80", "Airy", "International", "Clarke", or "GRS67") Used when transform is TRUE.}
 
-\item{dist_unit}{when \code{dist} is used, it defines the unit of measurement.  Possbile values: "km" and "m".}
+\item{height}{number between 0 and 1 to indicate the scale bar's height, as a proportion of the y axis.}
 
-\item{st.bottom}{logical. If TRUE (default) the scale bar text is displayed at the bottom of the scale bar, if FALSE, it is displayed at the top.}
+\item{st.dist}{number between 0 and 1 to indicate the distance between the scale bar and the scale bar's text, as a proportion of the y axis.}
 
-\item{st.size}{number to indicate the scale bar text size. It is passed to the size argument of \code{\link{annotate}} function.}
+\item{st.bottom}{logical. If TRUE (default) the scale bar's text is displayed at the bottom of the scale bar, if FALSE, it is displayed at the top.}
 
-\item{st.color}{scale bar text color. Default is black.}
+\item{st.size}{number to indicate the scale bar's size. It is passed to \code{size} in \code{\link{annotate}} function.}
 
-\item{box.fill}{box fill color. If vector of two colors, the two boxes are filled with a different color. Defaults to black and white.}
+\item{st.color}{color of the scale bar's text. Default is black.}
 
-\item{box.color}{box border color. If vector of two colors, the borders of the two boxes are colored differently. Defaults to black.}
+\item{box.fill}{fill color of the box. If vector of two colors, the two boxes are filled with a different color. Defaults to black and white.}
+
+\item{box.color}{color of the box's border. If vector of two colors, the borders of the two boxes are colored differently. Defaults to black.}
 
 \item{border.size}{number to define the border size.}
 
@@ -48,9 +51,9 @@ scalebar(data = NULL, location = "bottomright", dist = NULL,
 
 \item{y.max}{if \code{data} is not defined, number with the maximum y coordinate. Useful for ggmap.}
 
-\item{anchor}{named \code{\link{vector}} with coordinates to control the symbol position. For \code{location = "topright"}, \code{anchor} defines the coordinates of the symbol's topright corner and so forth. The x coordinate must be named as x and the y coordinate as y.}
+\item{anchor}{named \code{\link{vector}} with coordinates to control the symbol's position. For \code{location = "topright"}, \code{anchor} defines the coordinates of the symbol's topright corner and so forth. The x coordinate must be named as x and the y coordinate as y.}
 
-\item{facet.var}{if faceting, character vector of variable names used for faceting. This is useful for placing the scalebar only in one facet and must be used together with \code{facet.lev}.}
+\item{facet.var}{if faceting, character vector of variable names used for faceting. This is useful for placing the scalebar in only one facet and must be used together with \code{facet.lev}.}
 
 \item{facet.lev}{character vector with the name of one level for each variable in \code{facet.var}. The scale bar will be drawn only in the \code{facet.lev} facet.}
 
@@ -61,22 +64,23 @@ Adds a scale bar to maps created with ggplot or ggmap.
 }
 \examples{
 library(sf)
-dsn <- system.file('extdata', package = 'ggsn')
-map <- st_read(dsn, 'sp')
-
-# If "map" is a "sp" object, convert it to "sf" with map <- st_as_sf(map).
+data(domestic_violence)
 
 # Map in geographic coordinates
-ggplot(map, aes(fill = nots)) +
+ggplot(domestic_violence, aes(fill = Scaled)) +
     geom_sf() +
-    scalebar(map, , dist = 5, dd2km = TRUE, model = 'WGS84') +
-    scale_fill_brewer(name = 'Animal abuse\\nnotifications', palette = 8)
+    scalebar(domestic_violence, dist = 4, dist_unit = "km",
+             transform = TRUE, model = "WGS84") +
+    blank() +
+    scale_fill_continuous(low = "#fff7ec", high = "#7F0000")
 
 # Map in projected coordinates
-map2 <- st_transform(map, 31983)
-ggplot(map2, aes(fill = nots)) +
+domestic_violence2 <- st_transform(domestic_violence, 31983)
+ggplot(domestic_violence2, aes(fill = Scaled)) +
     geom_sf() +
-    scalebar(map2, dd2km = FALSE, dist = 5, model = 'WGS84') +
-    scale_fill_brewer(name = 'Animal abuse\\nnotifications', palette = 8)
-    
+    scalebar(domestic_violence2, dist = 4, dist_unit = "km",
+             transform = FALSE, model = "WGS84") +
+    blank() +
+    scale_fill_continuous(low = "#fff7ec", high = "#7F0000")
+
 }
