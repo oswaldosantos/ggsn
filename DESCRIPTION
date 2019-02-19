@@ -13,9 +13,6 @@ Imports:
     ggmap,
     graphics,
     utils
-Suggests:
-    rgdal,
-    broom
 Description: Adds north symbols (18 options) and scale bars in kilometers,
     meters, nautical miles, or statue miles, to maps in geographic
     or metric coordinates created with 'ggplot2' or 'ggmap'.
