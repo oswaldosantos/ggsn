@@ -12,7 +12,7 @@ show_news()
 check()
 check_doc()
 run_examples()
-#build_win()
+#check_win_devel()
 
 # Update version in:
 #   DESCRIPTION

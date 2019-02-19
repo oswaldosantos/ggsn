@@ -92,7 +92,7 @@ sp <- get_googlemap("São Paulo", zoom = 9, scale = 2)
 ggmap(sp) +
     geom_sf(data = domestic_violence, aes(fill = Scaled),
             inherit.aes = F) +
-    ggsn::scalebar(x.min = -46.85, x.max = -46.38,
+    scalebar(x.min = -46.85, x.max = -46.38,
                    y.min = -24, y.max = -23.35,
                    dist = 4, dist_unit = "km",
                    st.bottom = FALSE, st.color = "red",

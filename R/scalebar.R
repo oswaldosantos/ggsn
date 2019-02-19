@@ -25,6 +25,7 @@
 #' @param ... further arguments passed to \code{\link{geom_text}}.
 #' @export
 #' @examples
+#' \dontrun{
 #' library(sf)
 #' data(domestic_violence)
 #'
@@ -44,7 +45,7 @@
 #'              transform = FALSE, model = "WGS84") +
 #'     blank() +
 #'     scale_fill_continuous(low = "#fff7ec", high = "#7F0000")
-#'
+#' }
 scalebar <- function(data = NULL, location = "bottomright", dist = NULL, dist_unit = NULL, transform = NULL, dd2km = NULL, model = NULL, height = 0.02, st.dist = 0.02, st.bottom = TRUE, st.size = 5, st.color = "black", box.fill = c("black", "white"), box.color = "black", border.size = 1, x.min = NULL, x.max = NULL, y.min = NULL, y.max = NULL, anchor = NULL, facet.var = NULL, facet.lev = NULL, ...){
     if (is.null(data)) {
         if (is.null(x.min) | is.null(x.max) |

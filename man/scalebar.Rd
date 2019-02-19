@@ -63,6 +63,7 @@ scalebar(data = NULL, location = "bottomright", dist = NULL,
 Adds a scale bar to maps created with ggplot or ggmap.
 }
 \examples{
+\dontrun{
 library(sf)
 data(domestic_violence)
 
@@ -82,5 +83,5 @@ ggplot(domestic_violence2, aes(fill = Scaled)) +
              transform = FALSE, model = "WGS84") +
     blank() +
     scale_fill_continuous(low = "#fff7ec", high = "#7F0000")
-
+}
 }

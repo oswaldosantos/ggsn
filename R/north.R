@@ -13,13 +13,14 @@
 #' North symbols are included in the plot with the \code{\link{annotation_custom}} function, which do not works when used together with an empty call to ggplot (see last example). When it is convenient to use an empty call to ggplot, use \code{\link{north2}} instead.
 #' @export
 #' @examples
+#' \dontrun{
 #' library(sf)
 #' data(domestic_violence)
 #' ggplot(domestic_violence, aes(fill = Scaled)) +
 #'     geom_sf() +
 #'     north(domestic_violence, location = "bottomright", symbol = 15) +
 #'     scale_fill_continuous(low = "#fff7ec", high = "#7F0000")
-#'
+#' }
 north <- function(data = NULL, location = 'topright', scale = 0.1, symbol = 1, x.min, x.max, y.min, y.max, anchor = NULL) {
     if (is.null(data)) {
         if (is.null(x.min) | is.null(x.max) |

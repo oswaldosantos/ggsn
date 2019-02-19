@@ -24,6 +24,7 @@ Alternative implementation to add a north symbol to maps created with ggplot or 
 North symbols are included in the plot with the \code{\link{annotation_custom}} function, which do not works when used together with an empty call to ggplot (see last example). When it is convenient to use an empty call to ggplot, use \code{\link{north2}} instead.
 }
 \examples{
+\dontrun{
 library(sf)
 data(domestic_violence)
 map <- ggplot(domestic_violence, aes(fill = Scaled)) +
@@ -31,5 +32,5 @@ map <- ggplot(domestic_violence, aes(fill = Scaled)) +
     scale_fill_continuous(low = "#fff7ec", high = "#7F0000") +
     blank()
 north2(map, .5, .5, symbol = 10)
-
+}
 }

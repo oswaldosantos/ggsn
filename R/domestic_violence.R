@@ -11,5 +11,4 @@
 #'   \item{Scaled}{Scaled value}
 #'   \item{geometry}{sfc_POLYGON}
 #' }
-#' @source \url{https://doi.org/10.1016/j.prevetmed.2018.01.008/}
 "domestic_violence"
