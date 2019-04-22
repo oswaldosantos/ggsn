@@ -222,6 +222,8 @@ scalebar <- function(data = NULL, location = "bottomright", dist = NULL, dist_un
         legend2 <- cbind(data[1:3, ], x = unname(x.st.pos), y = unname(st.dist),
                          label = paste0(legend[, "text"], c("", "", dist_unit)))
     }
+    legend2 <- legend2[, c("x", "y", "label")]
+    st_geometry(legend2) <- NULL
     if (!is.null(facet.var) & !is.null(facet.lev)) {
         for (i in 1:length(facet.var)){
             if (any(class(data) == "sf")) {
@@ -246,6 +248,7 @@ scalebar <- function(data = NULL, location = "bottomright", dist = NULL, dist_un
         }
     }
     gg.legend <- geom_text(data = legend2, aes(x, y, label = label),
-                           size = st.size, color = st.color, ...)
+                           size = st.size, color = st.color,
+                           inherit.aes = FALSE, ...)
     return(list(gg.box1, gg.box2, gg.legend))
 }
