@@ -1,7 +1,12 @@
+ggsn 0.5.1
+==========
+
+* scalebar: bug fixed for use with gganimate::animate.
+
 ggsn 0.5.0
 ==========
 
-* scale bar: support for nautical miles and statue miles. New argument: "transform" replaces the now deprecated "dd2km".
+* scalebar: support for nautical miles and statue miles. New argument: "transform" replaces the now deprecated "dd2km".
 
 * Updated examples.
 
