@@ -17,4 +17,3 @@ importFrom(grid,viewport)
 importFrom(maptools,gcDestination)
 importFrom(png,readPNG)
 importFrom(sf,st_bbox)
-
