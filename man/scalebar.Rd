@@ -10,7 +10,7 @@ scalebar(data = NULL, location = "bottomright", dist = NULL,
   st.color = "black", box.fill = c("black", "white"),
   box.color = "black", border.size = 1, x.min = NULL, x.max = NULL,
   y.min = NULL, y.max = NULL, anchor = NULL, facet.var = NULL,
-  facet.lev = NULL, ...)
+  facet.lev = NULL, st.inherit = TRUE)
 }
 \arguments{
 \item{data}{the same \code{\link{data.frame}} passed to \code{\link{ggplot}} to plot the map.}
@@ -57,7 +57,7 @@ scalebar(data = NULL, location = "bottomright", dist = NULL,
 
 \item{facet.lev}{character vector with the name of one level for each variable in \code{facet.var}. The scale bar will be drawn only in the \code{facet.lev} facet.}
 
-\item{...}{further arguments passed to \code{\link{geom_text}}.}
+\item{st.inherit}{logical. Set as FALSE if scalebar has unexpected behavior in animations.}
 }
 \description{
 Adds a scale bar to maps created with ggplot or ggmap.

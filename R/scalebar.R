@@ -22,7 +22,7 @@
 #' @param y.max if \code{data} is not defined, number with the maximum y coordinate. Useful for ggmap.
 #' @param facet.var if faceting, character vector of variable names used for faceting. This is useful for placing the scalebar in only one facet and must be used together with \code{facet.lev}.
 #' @param facet.lev character vector with the name of one level for each variable in \code{facet.var}. The scale bar will be drawn only in the \code{facet.lev} facet.
-#' @param ... further arguments passed to \code{\link{geom_text}}.
+#' @param st.inherit logical. Set as FALSE if scalebar has unexpected behavior in animations.
 #' @export
 #' @examples
 #' \dontrun{
@@ -46,7 +46,7 @@
 #'     blank() +
 #'     scale_fill_continuous(low = "#fff7ec", high = "#7F0000")
 #' }
-scalebar <- function(data = NULL, location = "bottomright", dist = NULL, dist_unit = NULL, transform = NULL, dd2km = NULL, model = NULL, height = 0.02, st.dist = 0.02, st.bottom = TRUE, st.size = 5, st.color = "black", box.fill = c("black", "white"), box.color = "black", border.size = 1, x.min = NULL, x.max = NULL, y.min = NULL, y.max = NULL, anchor = NULL, facet.var = NULL, facet.lev = NULL, ...){
+scalebar <- function(data = NULL, location = "bottomright", dist = NULL, dist_unit = NULL, transform = NULL, dd2km = NULL, model = NULL, height = 0.02, st.dist = 0.02, st.bottom = TRUE, st.size = 5, st.color = "black", box.fill = c("black", "white"), box.color = "black", border.size = 1, x.min = NULL, x.max = NULL, y.min = NULL, y.max = NULL, anchor = NULL, facet.var = NULL, facet.lev = NULL, st.inherit = TRUE){
     if (is.null(data)) {
         if (is.null(x.min) | is.null(x.max) |
             is.null(y.min) | is.null(y.max) ) {
@@ -55,7 +55,7 @@ scalebar <- function(data = NULL, location = "bottomright", dist = NULL, dist_un
         data <- data.frame(long = c(x.min, x.max), lat = c(y.min, y.max))
     }
     if (is.null(transform)) {
-     stop("transform should be logical.")
+        stop("transform should be logical.")
     }
     if (any(class(data) %in% "sf")) {
         xmin <- sf::st_bbox(data)["xmin"]
@@ -203,7 +203,7 @@ scalebar <- function(data = NULL, location = "bottomright", dist = NULL, dist_un
     } else {
         legend <- cbind(text = c(0, dist, dist * 2), row.names = NULL)
     }
-        gg.box1 <- geom_polygon(data = box1, aes(x, y),
+    gg.box1 <- geom_polygon(data = box1, aes(x, y),
                             fill = utils::tail(box.fill, 1),
                             color = utils::tail(box.color, 1),
                             size = border.size)
@@ -222,8 +222,6 @@ scalebar <- function(data = NULL, location = "bottomright", dist = NULL, dist_un
         legend2 <- cbind(data[1:3, ], x = unname(x.st.pos), y = unname(st.dist),
                          label = paste0(legend[, "text"], c("", "", dist_unit)))
     }
-    legend2 <- legend2[, c("x", "y", "label")]
-    st_geometry(legend2) <- NULL
     if (!is.null(facet.var) & !is.null(facet.lev)) {
         for (i in 1:length(facet.var)){
             if (any(class(data) == "sf")) {
@@ -247,8 +245,11 @@ scalebar <- function(data = NULL, location = "bottomright", dist = NULL, dist_un
             legend2[, facet.var] <- rep(facet.levels0, each = 3)
         }
     }
+    if (!st.inherit) {
+        legend2 <- legend2[, c("x", "y", "label")]
+    }
     gg.legend <- geom_text(data = legend2, aes(x, y, label = label),
                            size = st.size, color = st.color,
-                           inherit.aes = FALSE, ...)
+                           inherit.aes = st.inherit)
     return(list(gg.box1, gg.box2, gg.legend))
 }
