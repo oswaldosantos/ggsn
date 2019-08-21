@@ -2,6 +2,7 @@ ggsn 0.5.3
 ==========
 
 * scalebar: 'data' arg now checks that 'lat' and 'long' columns exist, and the user is told of this requirement.
+* scalebar: 'data' arg now only keeps columns that begin with 'lat' or 'long' Users are warned not to have other columns that meet this condition.
 
 ggsn 0.5.2
 ==========
