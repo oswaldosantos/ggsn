@@ -180,6 +180,20 @@ scalebar <- function(data = NULL, location = "bottomright", dist = NULL, dist_un
         }
         
     }
+    
+    # If break1 or break2 are outside the min and max extents, then 'dist' is too
+    # large for the map. https://github.com/oswaldosantos/ggsn/issues/48
+    out_of_range <- function(low, n, high) {
+        n < low | n > high 
+    }
+    
+    if (out_of_range(xmin, break1, xmax) | out_of_range(xmin, break2, xmax)) {
+        stop("The requested scalebar distance (", 
+             substitute(dist), " ", substitute(dist_unit), 
+             ") is too large to fit on the map.\n  Try reducing it.")
+    }
+    
+    
     box1 <- data.frame(x = c(x, x, rep(break1, 2), x),
                        y = c(y, height, height, y, y), group = 1)
     box2 <- data.frame(x = c(rep(break1, 2), rep(break2, 2), break1),
