@@ -1,6 +1,6 @@
 #' scalebar
 #' @description Adds a scale bar to maps created with ggplot or ggmap.
-#' @param data the same \code{\link{data.frame}} passed to \code{\link{ggplot}} to plot the map.
+#' @param data the same \code{\link{data.frame}} passed to \code{\link{ggplot}} to plot the map. It must contain columns whose names begin with \code{long} and \code{lat}.
 #' @param location string indicating the scale bar's location in the plot. Possible options: "topright" (default), "bottomright", "bottomleft" and "topleft".
 #' @param dist distance to represent with each segment of the scale bar.
 #' @param dist_unit unit of measurement for \code{dist}. Possbile values: "km" (kilometers) and "m" (meters), "nm" (nautical miles) and "mi" (statue miles).
@@ -63,10 +63,14 @@ scalebar <- function(data = NULL, location = "bottomright", dist = NULL, dist_un
         ymin <- sf::st_bbox(data)["ymin"]
         ymax <- sf::st_bbox(data)["ymax"]
     } else {
-        xmin <- min(data$long)
-        xmax <- max(data$long)
-        ymin <- min(data$lat)
-        ymax <- max(data$lat)
+        if (any(startsWith(colnames(data), "lat")) & any(startsWith(colnames(data), "long"))) {
+            xmin <- min(data$long)
+            xmax <- max(data$long)
+            ymin <- min(data$lat)
+            ymax <- max(data$lat)
+        } else {
+            stop("'", substitute(data), "' must have columns with names that start with 'lat' and 'long'")
+        }
     }
     if (location == 'bottomleft') {
         if (is.null(anchor)) {

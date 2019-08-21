@@ -13,7 +13,7 @@ scalebar(data = NULL, location = "bottomright", dist = NULL,
   facet.lev = NULL, st.inherit = TRUE)
 }
 \arguments{
-\item{data}{the same \code{\link{data.frame}} passed to \code{\link{ggplot}} to plot the map.}
+\item{data}{the same \code{\link{data.frame}} passed to \code{\link{ggplot}} to plot the map. It must contain columns whose names begin with \code{long} and \code{lat}.}
 
 \item{location}{string indicating the scale bar's location in the plot. Possible options: "topright" (default), "bottomright", "bottomleft" and "topleft".}
 
