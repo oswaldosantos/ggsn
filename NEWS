@@ -1,3 +1,8 @@
+ggsn 0.5.3
+==========
+
+* scalebar: 'data' arg now checks that 'lat' and 'long' columns exist, and the user is told of this requirement.
+
 ggsn 0.5.2
 ==========
 
