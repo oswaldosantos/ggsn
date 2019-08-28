@@ -64,10 +64,6 @@ scalebar <- function(data = NULL, location = "bottomright", dist = NULL, dist_un
         ymax <- sf::st_bbox(data)["ymax"]
     } else {
         if (any(startsWith(colnames(data), "lat")) & any(startsWith(colnames(data), "long"))) {
-            # Extra columns cause an error during ggplot piping.
-            # https://github.com/oswaldosantos/ggsn/issues/47
-            data <- data[which(grepl("^(lat|long)", colnames(data)))]
-            
             xmin <- min(data$long)
             xmax <- max(data$long)
             ymin <- min(data$lat)
