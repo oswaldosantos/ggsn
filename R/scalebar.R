@@ -1,6 +1,6 @@
 #' scalebar
 #' @description Adds a scale bar to maps created with ggplot or ggmap.
-#' @param data the same \code{\link{data.frame}} passed to \code{\link{ggplot}} to plot the map. It must contain columns whose names begin with \code{long} and \code{lat}.
+#' @param data the same \code{\link{data.frame}} passed to \code{\link{ggplot}} to plot the map. If the \code{class} of \code{data} is not \code{sf}, it must contain columns whose names begin with \code{long} and \code{lat}.
 #' @param location string indicating the scale bar's location in the plot. Possible options: "topright" (default), "bottomright", "bottomleft" and "topleft".
 #' @param dist distance to represent with each segment of the scale bar.
 #' @param dist_unit unit of measurement for \code{dist}. Possbile values: "km" (kilometers) and "m" (meters), "nm" (nautical miles) and "mi" (statue miles).
