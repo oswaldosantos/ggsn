@@ -1,9 +1,9 @@
 ggsn 0.5.3
 ==========
 
-* scalebar: 'data' arg now checks that 'lat' and 'long' columns exist, and the user is told of this requirement.
-* scalebar: 'data' arg now only keeps columns that begin with 'lat' or 'long' Users are warned not to have other columns that meet this condition.
+* scalebar: 'data' arg now checks that 'lat' and 'long' columns exist, and the user is told that this is a requirement if they are not using an 'sf' object in 'data'.
 * scalebar: function now stops the user if they are asking for a scalebar that is too big to fit on the map.
+* scalebar: clarified that 'x.min/x.max/y.min/y.max' args should be used in ggmap pipelines, not 'data'.
 
 ggsn 0.5.2
 ==========
