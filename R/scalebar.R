@@ -1,6 +1,6 @@
 #' scalebar
 #' @description Adds a scale bar to maps created with ggplot or ggmap.
-#' @param data the same \code{\link{data.frame}} passed to \code{\link{ggplot}} to plot the map.
+#' @param data the same \code{\link{data.frame}} passed to \code{\link{ggplot}} to plot the map. If the \code{class} of \code{data} is not \code{sf}, it must contain columns whose names begin with \code{long} and \code{lat}.
 #' @param location string indicating the scale bar's location in the plot. Possible options: "topright" (default), "bottomright", "bottomleft" and "topleft".
 #' @param dist distance to represent with each segment of the scale bar.
 #' @param dist_unit unit of measurement for \code{dist}. Possbile values: "km" (kilometers) and "m" (meters), "nm" (nautical miles) and "mi" (statue miles).
@@ -16,10 +16,10 @@
 #' @param box.color color of the box's border. If vector of two colors, the borders of the two boxes are colored differently. Defaults to black.
 #' @param border.size number to define the border size.
 #' @param anchor named \code{\link{vector}} with coordinates to control the symbol's position. For \code{location = "topright"}, \code{anchor} defines the coordinates of the symbol's topright corner and so forth. The x coordinate must be named as x and the y coordinate as y.
-#' @param x.min if \code{data} is not defined, number with the minimum x coordinate. Useful for ggmap.
-#' @param x.max if \code{data} is not defined, number with the maximum x coordinate. Useful for ggmap.
-#' @param y.min if \code{data} is not defined, number with the minimum y coordinate. Useful for ggmap.
-#' @param y.max if \code{data} is not defined, number with the maximum y coordinate. Useful for ggmap.
+#' @param x.min if \code{data} is not defined, number with the minimum x coordinate. Use this for ggmap, not \code{data}.
+#' @param x.max if \code{data} is not defined, number with the maximum x coordinate. Use this for ggmap, not \code{data}.
+#' @param y.min if \code{data} is not defined, number with the minimum y coordinate. Use this for ggmap, not \code{data}.
+#' @param y.max if \code{data} is not defined, number with the maximum y coordinate. Use this for ggmap, not \code{data}.
 #' @param facet.var if faceting, character vector of variable names used for faceting. This is useful for placing the scalebar in only one facet and must be used together with \code{facet.lev}.
 #' @param facet.lev character vector with the name of one level for each variable in \code{facet.var}. The scale bar will be drawn only in the \code{facet.lev} facet.
 #' @param st.inherit logical. Set as FALSE if scalebar has unexpected behavior in animations.
@@ -63,10 +63,14 @@ scalebar <- function(data = NULL, location = "bottomright", dist = NULL, dist_un
         ymin <- sf::st_bbox(data)["ymin"]
         ymax <- sf::st_bbox(data)["ymax"]
     } else {
-        xmin <- min(data$long)
-        xmax <- max(data$long)
-        ymin <- min(data$lat)
-        ymax <- max(data$lat)
+        if (any(startsWith(colnames(data), "lat")) & any(startsWith(colnames(data), "long"))) {
+            xmin <- min(data$long)
+            xmax <- max(data$long)
+            ymin <- min(data$lat)
+            ymax <- max(data$lat)
+        } else {
+            stop("'", substitute(data), "' must have columns with names that start with 'lat' and 'long'")
+        }
     }
     if (location == 'bottomleft') {
         if (is.null(anchor)) {
@@ -172,6 +176,20 @@ scalebar <- function(data = NULL, location = "bottomright", dist = NULL, dist_un
         }
         
     }
+    
+    # If break1 or break2 are outside the min and max extents, then 'dist' is too
+    # large for the map. https://github.com/oswaldosantos/ggsn/issues/48
+    out_of_range <- function(low, n, high) {
+        n < low | n > high 
+    }
+    
+    if (out_of_range(xmin, break1, xmax) | out_of_range(xmin, break2, xmax)) {
+        stop("The requested scalebar distance (", 
+             substitute(dist), " ", substitute(dist_unit), 
+             ") is too large to fit on the map.\n  Try reducing it.")
+    }
+    
+    
     box1 <- data.frame(x = c(x, x, rep(break1, 2), x),
                        y = c(y, height, height, y, y), group = 1)
     box2 <- data.frame(x = c(rep(break1, 2), rep(break2, 2), break1),
