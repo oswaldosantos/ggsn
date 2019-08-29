@@ -16,10 +16,10 @@
 #' @param box.color color of the box's border. If vector of two colors, the borders of the two boxes are colored differently. Defaults to black.
 #' @param border.size number to define the border size.
 #' @param anchor named \code{\link{vector}} with coordinates to control the symbol's position. For \code{location = "topright"}, \code{anchor} defines the coordinates of the symbol's topright corner and so forth. The x coordinate must be named as x and the y coordinate as y.
-#' @param x.min if \code{data} is not defined, number with the minimum x coordinate. Use this for ggmap, not \code{data}.
-#' @param x.max if \code{data} is not defined, number with the maximum x coordinate. Use this for ggmap, not \code{data}.
-#' @param y.min if \code{data} is not defined, number with the minimum y coordinate. Use this for ggmap, not \code{data}.
-#' @param y.max if \code{data} is not defined, number with the maximum y coordinate. Use this for ggmap, not \code{data}.
+#' @param x.min if \code{data} is not defined, number with the minimum x coordinate. Useful for ggmap.
+#' @param x.max if \code{data} is not defined, number with the maximum x coordinate. Useful for ggmap.
+#' @param y.min if \code{data} is not defined, number with the minimum y coordinate. Useful for ggmap.
+#' @param y.max if \code{data} is not defined, number with the maximum y coordinate. Useful for ggmap.
 #' @param facet.var if faceting, character vector of variable names used for faceting. This is useful for placing the scalebar in only one facet and must be used together with \code{facet.lev}.
 #' @param facet.lev character vector with the name of one level for each variable in \code{facet.var}. The scale bar will be drawn only in the \code{facet.lev} facet.
 #' @param st.inherit logical. Set as FALSE if scalebar has unexpected behavior in animations.
@@ -177,8 +177,6 @@ scalebar <- function(data = NULL, location = "bottomright", dist = NULL, dist_un
         
     }
     
-    # If break1 or break2 are outside the min and max extents, then 'dist' is too
-    # large for the map. https://github.com/oswaldosantos/ggsn/issues/48
     out_of_range <- function(low, n, high) {
         n < low | n > high 
     }
