@@ -233,10 +233,10 @@ scalebar <- function(data = NULL, location = "bottomright", dist = NULL, dist_un
     label <- NULL
     if (exists("dist_unit0")) {
         legend2 <- cbind(data[1:3, ], x = unname(x.st.pos), y = unname(st.dist),
-                         label = paste0(legend[, "text"], c("", "", "m")))
+                         label = paste0(legend[, "text"], c("", "", " m")))
     } else {
         legend2 <- cbind(data[1:3, ], x = unname(x.st.pos), y = unname(st.dist),
-                         label = paste0(legend[, "text"], c("", "", dist_unit)))
+                         label = paste0(legend[, "text"], c("", "", paste0(" ", dist_unit))))
     }
     if (!is.null(facet.var) & !is.null(facet.lev)) {
         for (i in 1:length(facet.var)){
@@ -269,3 +269,4 @@ scalebar <- function(data = NULL, location = "bottomright", dist = NULL, dist_un
                            inherit.aes = st.inherit)
     return(list(gg.box1, gg.box2, gg.legend))
 }
+
